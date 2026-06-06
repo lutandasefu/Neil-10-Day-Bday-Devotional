@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Her Holy — A 10-Day Devotional Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root {
+  --deep:    #4f0b0b;
+  --white:   #ffffff;
+  --rose:    #e26b89;
+  --blush:   #f59dab;
+  --darkest: #380200;
+  --crimson: #a90a26;
+  --heading-font: 'Playfair Display', serif;
+  --sub-font: 'Cormorant Garamond', serif;
+  --body-font: 'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--body-font);
+  background: var(--deep);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── PAGES ── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+/* ══ PAGE 1: INTRO ══ */
+#page-intro {
+  background: var(--deep);
+  position: relative;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+#page-intro::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(162,10,38,0.3) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(226,107,137,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.intro-ornament {
+  font-family: var(--sub-font);
+  font-size: 14px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--blush);
+  opacity: 0.8;
+  margin-bottom: 16px;
+  animation: fadeUp 1s ease both;
+}
+
+.intro-title {
+  font-family: var(--heading-font);
+  font-size: clamp(52px, 10vw, 96px);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.95;
+  color: var(--white);
+  animation: fadeUp 1s 0.2s ease both;
+}
+
+.intro-title span {
+  display: block;
+  color: var(--rose);
+}
+
+.intro-rule {
+  width: 80px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rose), transparent);
+  margin: 28px auto;
+  animation: fadeUp 1s 0.4s ease both;
+}
+
+.intro-sub {
+  font-family: var(--sub-font);
+  font-size: clamp(15px, 2.5vw, 20px);
+  font-style: italic;
+  color: var(--blush);
+  max-width: 480px;
+  line-height: 1.7;
+  animation: fadeUp 1s 0.5s ease both;
+}
+
+.intro-dedication {
+  margin-top: 32px;
+  max-width: 520px;
+  font-family: var(--body-font);
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.9;
+  animation: fadeUp 1s 0.6s ease both;
+}
+
+.intro-dedication strong {
+  color: var(--blush);
+  font-weight: 500;
+}
+
+.btn-begin {
+  margin-top: 44px;
+  padding: 16px 48px;
+  background: transparent;
+  border: 1px solid var(--rose);
+  color: var(--white);
+  font-family: var(--sub-font);
+  font-size: 18px;
+  font-style: italic;
+  letter-spacing: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  animation: fadeUp 1s 0.8s ease both;
+}
+
+.btn-begin::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--rose);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+
+.btn-begin:hover { color: var(--white); border-color: var(--rose); }
+.btn-begin:hover::before { transform: scaleX(1); }
+
+/* ══ PAGE 2: ADVENT CALENDAR ══ */
+#page-calendar {
+  background: var(--deep);
+  padding: 40px 24px 60px;
+  min-height: 100vh;
+  display: block;
+}
+
+.calendar-header {
+  text-align: center;
+  padding: 40px 0 32px;
+}
+
+.calendar-title {
+  font-family: var(--heading-font);
+  font-size: clamp(28px, 5vw, 48px);
+  font-style: italic;
+  color: var(--white);
+}
+
+.calendar-title span { color: var(--rose); }
+
+.calendar-sub {
+  font-family: var(--sub-font);
+  font-size: 15px;
+  color: var(--blush);
+  opacity: 0.75;
+  margin-top: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(226,107,137,0.2);
+}
+
+.cal-cell:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 32px rgba(162,10,38,0.4);
+  z-index: 2;
+}
+
+.cal-day {
+  background: var(--darkest);
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cal-day .day-num {
+  font-family: var(--heading-font);
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 900;
+  color: var(--white);
+}
+
+.cal-day .day-label {
+  font-family: var(--body-font);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--blush);
+  opacity: 0.7;
+}
+
+.cal-day::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(226,107,137,0.08), transparent);
+  pointer-events: none;
+}
+
+.cal-heart {
+  background: var(--crimson);
+  font-size: clamp(24px, 4vw, 36px);
+}
+
+.cal-heart:hover { background: var(--rose); }
+
+/* ══ PRELOADER ══ */
+#preloader {
+  display: none;
+  position: fixed; inset: 0;
+  background: var(--darkest);
+  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#preloader.show { display: flex; }
+
+.preloader-ring {
+  width: 64px; height: 64px;
+  border: 2px solid rgba(226,107,137,0.2);
+  border-top-color: var(--rose);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin-bottom: 28px;
+}
+
+.preloader-phrase {
+  font-family: var(--heading-font);
+  font-size: clamp(20px, 4vw, 32px);
+  font-style: italic;
+  color: var(--white);
+  max-width: 320px;
+  line-height: 1.4;
+}
+
+.preloader-phrase span { color: var(--rose); }
+
+/* ══ SCRIPTURE OVERLAY ══ */
+#scripture-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(56,2,0,0.92);
+  z-index: 90;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(4px);
+}
+
+#scripture-overlay.show { display: flex; }
+
+.scripture-card {
+  background: var(--deep);
+  border: 1px solid rgba(226,107,137,0.3);
+  max-width: 480px;
+  width: 100%;
+  padding: 48px 40px;
+  text-align: center;
+  position: relative;
+}
+
+.scripture-ref {
+  font-family: var(--body-font);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 20px;
+}
+
+.scripture-text {
+  font-family: var(--sub-font);
+  font-size: clamp(18px, 3vw, 24px);
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--white);
+}
+
+.scripture-close {
+  margin-top: 32px;
+  background: none;
+  border: 1px solid rgba(226,107,137,0.4);
+  color: var(--blush);
+  padding: 10px 28px;
+  font-family: var(--body-font);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.scripture-close:hover { background: var(--rose); color: var(--white); border-color: var(--rose); }
+
+/* ══ DEVOTIONAL OVERLAY ══ */
+#devotional-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  z-index: 95;
+  overflow-y: auto;
+  background: #fff;
+}
+
+#devotional-overlay.show { display: block; }
+
+.devotional-inner {
+  min-height: 100vh;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(79,11,11,0.08) 39px,
+      rgba(79,11,11,0.08) 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(79,11,11,0.06) 39px,
+      rgba(79,11,11,0.06) 40px
+    ),
+    #fdf8f8;
+  padding: 0 0 60px;
+}
+
+.dev-header {
+  background: var(--deep);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 10;
+  border-bottom: 2px solid var(--rose);
+}
+
+.dev-header-title {
+  font-family: var(--heading-font);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--white);
+}
+
+.dev-header-title span { color: var(--rose); }
+
+.dev-close {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: var(--white);
+  padding: 8px 18px;
+  font-family: var(--body-font);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dev-close:hover { background: var(--rose); border-color: var(--rose); }
+
+.dev-body { max-width: 680px; margin: 0 auto; padding: 40px 24px; }
+
+.dev-day-label {
+  font-family: var(--body-font);
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: 8px;
+}
+
+.dev-statement {
+  font-family: var(--heading-font);
+  font-size: clamp(26px, 5vw, 42px);
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--deep);
+  margin-bottom: 24px;
+}
+
+.dev-rule {
+  width: 60px; height: 2px;
+  background: var(--rose);
+  margin-bottom: 32px;
+}
+
+/* Passage block */
+.passage-block {
+  background: var(--deep);
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  border-left: 3px solid var(--rose);
+  position: relative;
+}
+
+.passage-ref {
+  font-family: var(--body-font);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--blush);
+  margin-bottom: 10px;
+}
+
+.passage-text {
+  font-family: var(--sub-font);
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.75;
+  color: var(--white);
+}
+
+/* Unpacking */
+.section-label {
+  font-family: var(--body-font);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(79,11,11,0.15);
+}
+
+.dev-prose {
+  font-family: var(--sub-font);
+  font-size: 18px;
+  line-height: 1.9;
+  color: #2a0a0a;
+  margin-bottom: 32px;
+}
+
+.dev-prose strong { color: var(--crimson); font-weight: 600; }
+.dev-prose em { font-style: italic; color: var(--deep); }
+
+/* Quiz */
+.quiz-block {
+  background: rgba(79,11,11,0.04);
+  border: 1px solid rgba(79,11,11,0.12);
+  padding: 28px;
+  margin-bottom: 32px;
+}
+
+.quiz-q {
+  font-family: var(--sub-font);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--deep);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+
+.quiz-option {
+  padding: 12px 16px;
+  border: 1px solid rgba(79,11,11,0.15);
+  background: white;
+  cursor: pointer;
+  font-family: var(--body-font);
+  font-size: 14px;
+  color: var(--deep);
+  text-align: left;
+  transition: all 0.2s;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.quiz-option:hover { background: rgba(226,107,137,0.08); border-color: var(--rose); }
+.quiz-option.correct { background: rgba(15,110,86,0.08); border-color: #0f6e56; color: #0f6e56; }
+.quiz-option.wrong { background: rgba(162,10,38,0.08); border-color: var(--crimson); color: var(--crimson); }
+.quiz-option.disabled { pointer-events: none; }
+
+.quiz-letter {
+  font-family: var(--heading-font);
+  font-weight: 700;
+  font-size: 16px;
+  min-width: 20px;
+}
+
+.quiz-feedback {
+  margin-top: 14px;
+  padding: 12px 16px;
+  font-family: var(--sub-font);
+  font-size: 16px;
+  font-style: italic;
+  display: none;
+  border-left: 3px solid;
+}
+
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { border-color: #0f6e56; color: #0f6e56; background: rgba(15,110,86,0.06); }
+.quiz-feedback.wrong-fb { border-color: var(--crimson); color: var(--crimson); background: rgba(162,10,38,0.05); }
+
+/* Reflection */
+.reflection-q {
+  font-family: var(--sub-font);
+  font-size: 17px;
+  font-style: italic;
+  color: var(--deep);
+  margin-bottom: 14px;
+  line-height: 1.6;
+  padding-left: 16px;
+  border-left: 2px solid var(--rose);
+}
+
+/* Notes */
+.notes-area {
+  width: 100%;
+  min-height: 180px;
+  border: 1px solid rgba(79,11,11,0.2);
+  background: white;
+  padding: 16px;
+  font-family: var(--sub-font);
+  font-size: 16px;
+  line-height: 2;
+  color: var(--deep);
+  resize: vertical;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    rgba(79,11,11,0.08) 31px,
+    rgba(79,11,11,0.08) 32px
+  );
+  background-attachment: local;
+}
+
+.notes-area:focus { outline: 1px solid var(--rose); }
+
+.notes-actions { display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+
+.btn-save {
+  padding: 12px 28px;
+  background: var(--deep);
+  color: var(--white);
+  border: none;
+  font-family: var(--body-font);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-save:hover { background: var(--crimson); }
+
+.btn-pdf {
+  padding: 12px 28px;
+  background: var(--rose);
+  color: var(--white);
+  border: none;
+  font-family: var(--body-font);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-pdf:hover { background: var(--crimson); }
+
+.save-confirm {
+  font-family: var(--sub-font);
+  font-size: 14px;
+  font-style: italic;
+  color: #0f6e56;
+  align-self: center;
+  display: none;
+}
+
+.save-confirm.show { display: block; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes calReveal {
+  from { opacity: 0; transform: scale(0.8) rotate(-4deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.cal-cell { animation: calReveal 0.5s ease both; }
+
+/* stagger */
+.cal-cell:nth-child(1)  { animation-delay: 0.05s; }
+.cal-cell:nth-child(2)  { animation-delay: 0.10s; }
+.cal-cell:nth-child(3)  { animation-delay: 0.15s; }
+.cal-cell:nth-child(4)  { animation-delay: 0.20s; }
+.cal-cell:nth-child(5)  { animation-delay: 0.25s; }
+.cal-cell:nth-child(6)  { animation-delay: 0.30s; }
+.cal-cell:nth-child(7)  { animation-delay: 0.35s; }
+.cal-cell:nth-child(8)  { animation-delay: 0.40s; }
+.cal-cell:nth-child(9)  { animation-delay: 0.45s; }
+.cal-cell:nth-child(10) { animation-delay: 0.50s; }
+.cal-cell:nth-child(11) { animation-delay: 0.55s; }
+.cal-cell:nth-child(12) { animation-delay: 0.60s; }
+.cal-cell:nth-child(13) { animation-delay: 0.65s; }
+.cal-cell:nth-child(14) { animation-delay: 0.70s; }
+.cal-cell:nth-child(15) { animation-delay: 0.75s; }
+.cal-cell:nth-child(16) { animation-delay: 0.80s; }
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--blush);
+  font-family: var(--body-font);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin: 0 auto 24px;
+  display: block;
+  text-align: center;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.back-btn:hover { opacity: 1; }
+
+/* reflection block spacing */
+.reflection-block { margin-bottom: 16px; }
+
+/* completed indicator */
+.cal-day.done::before {
+  content: '✓';
+  position: absolute;
+  top: 6px; right: 8px;
+  font-size: 12px;
+  color: var(--rose);
+  font-family: var(--body-font);
+}
+</style>
+</head>
+<body>
+
+<!-- ══ PAGE 1: INTRO ══ -->
+<div id="page-intro" class="page active">
+  <div class="intro-ornament">A Gift of Love · For the One Who Loves Too Well</div>
+
+  <h1 class="intro-title">
+    Love<br><span>Her Holy</span>
+  </h1>
+
+  <div class="intro-rule"></div>
+
+  <p class="intro-sub">A 10-Day Devotional Journal on Loving as Christ Loved the Church</p>
+
+  <div class="intro-dedication">
+    <p>This journal is for you — the one whose heart is too big for the world's small definitions of love. You have loved with everything you have, and the world has not always known what to do with that.</p>
+    <br>
+    <p>But God does. <strong>He made you this way on purpose.</strong></p>
+    <br>
+    <p>These ten days are not about becoming less — they are about becoming <strong>more rightly ordered</strong>. About learning to love the way God loves. About becoming the man worthy of the woman you are praying for. About <strong>loving her holy</strong>, before you even meet her.</p>
+    <br>
+    <p style="font-style:italic; color: var(--rose);">With love, your sister in faith — and your biggest fan.</p>
+  </div>
+
+  <button class="btn-begin" onclick="showCalendar()">Open Your Journal →</button>
+</div>
+
+<!-- ══ PAGE 2: ADVENT CALENDAR ══ -->
+<div id="page-calendar" class="page">
+  <div class="calendar-header">
+    <button class="back-btn" onclick="showIntro()">← Back</button>
+    <h2 class="calendar-title">Love <span>Her Holy</span></h2>
+    <p class="calendar-sub">Select a day · Click a heart for Scripture</p>
+  </div>
+
+  <div class="calendar-grid" id="calGrid"></div>
+</div>
+
+<!-- ══ PRELOADER ══ -->
+<div id="preloader">
+  <div class="preloader-ring"></div>
+  <div class="preloader-phrase" id="preloaderPhrase"></div>
+</div>
+
+<!-- ══ SCRIPTURE OVERLAY ══ -->
+<div id="scripture-overlay">
+  <div class="scripture-card">
+    <div class="scripture-ref" id="scriptureRef"></div>
+    <div class="scripture-text" id="scriptureText"></div>
+    <button class="scripture-close" onclick="closeScripture()">Close</button>
+  </div>
+</div>
+
+<!-- ══ DEVOTIONAL OVERLAY ══ -->
+<div id="devotional-overlay">
+  <div class="devotional-inner">
+    <div class="dev-header">
+      <div class="dev-header-title">Love <span>Her Holy</span></div>
+      <button class="dev-close" onclick="closeDevotional()">✕ Close</button>
+    </div>
+    <div class="dev-body" id="devBody"></div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+
+const preloaderPhrases = [
+  "Your princess awaits... 👑",
+  "Loading your love story... 💌",
+  "Preparing something beautiful for you... 🌹",
+  "The best is yet to come, king... ✨",
+  "God is writing your chapter... 📖",
+  "She's worth the wait... 💐",
+  "Your heart is in good hands... 🙏",
+  "Love is patient, and so are we... ⏳",
+  "Getting your throne ready... 👑",
+  "Something holy this way comes... 🕊️"
+];
+
+const scriptures = [
+  { ref: "Song of Solomon 8:6–7", text: "Set me as a seal upon your heart, as a seal upon your arm, for love is strong as death, jealousy fierce as the grave. Many waters cannot quench love, neither can floods drown it." },
+  { ref: "Ephesians 5:25", text: "Husbands, love your wives, as Christ loved the church and gave himself up for her." },
+  { ref: "1 Corinthians 13:4–5", text: "Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful." },
+  { ref: "Proverbs 18:22", text: "He who finds a wife finds a good thing and obtains favour from the LORD." },
+  { ref: "Genesis 2:24", text: "Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh." },
+];
+
+const days = [
+  {
+    num: 1,
+    statement: "You Cannot Give What You Have Not Received",
+    passage: { ref: "1 John 4:19", text: "We love because he first loved us." },
+    unpacking: `Brother, before we talk about her — we have to talk about Him. Because here's the truth nobody tells romantics like you: the love you're trying to pour out has to come from somewhere. And right now, some of what you've been pouring has been coming from a place of <strong>need</strong> rather than <strong>fullness</strong>.
+
+When you love from emptiness, you love desperately. You hold too tight. You pour too fast. You read every silence as rejection and every warmth as a promise. That isn't a character flaw — it's what happens when a man is trying to love beyond his capacity. And your capacity only grows one way: by first letting God love you completely.
+
+John doesn't say "love God so he will love you back." He says we love <em>because</em> he first loved us. His love is the source. Not the reward. The moment you discover that you are already, completely, permanently loved by the God of the universe — not because of your music, your passion, or your purity ring, but simply because he made you — everything shifts. You stop loving to be filled. You love because you're overflowing.
+
+That is the love she deserves. That is the man you're becoming.`,
+    quiz: {
+      q: "According to 1 John 4:19, what is the source of our ability to love?",
+      options: ["Our own willpower and emotional effort", "God's love toward us, which comes first", "Finding the right person who unlocks love in us", "Religious discipline and purity"],
+      correct: 1,
+      feedback: { correct: "Yes — love flows from God to us, and through us to others. It is received before it is given.", wrong: "Not quite. John is clear — we love *because* he first loved us. The source is always God, not ourselves." }
+    },
+    reflections: [
+      "When you love someone romantically, what are you hoping they will give you? Be specific — security, proof of worth, someone to belong to?",
+      "If you knew God's love for you was total and permanent — not dependent on your performance, your music, or your purity — would it change how urgently you pursue relationships?",
+      "Think of your last two or three connections. Were you loving from fullness, or from a place of needing something in return?"
+    ]
+  },
+  {
+    num: 2,
+    statement: "The Man She Needs Exists Before She Arrives",
+    passage: { ref: "Proverbs 27:17", text: "Iron sharpens iron, and one man sharpens another." },
+    unpacking: `Here's something that will sound backwards at first: the woman God has for you is not the source of your growth — she is the <strong>companion of your growth</strong>. She is not your project, your therapist, or your salvation. She is your partner. And partners walk alongside each other as equals, not one dragging the other.
+
+You've said you want a woman who is nurturing, who cooks, who supports, who is present. That's beautiful — and biblical. A woman's nurturing, homemaking heart is a gift, not a given. But here's the honest question I need you to sit with: <em>are you building what she deserves to come home to?</em>
+
+Ephesians 5 doesn't say "find a Proverbs 31 woman." It says <strong>love her as Christ loved the church</strong>. Christ didn't wait for the church to be worthy before he led, provided, protected, and poured himself out. He went first. He was the man before the moment demanded it. That's what headship actually means — not control, but covenant-first love. Being the kind of man who makes it easy for a woman to flourish.
+
+You are being built right now, in this season. The question is — are you participating in the building?`,
+    quiz: {
+      q: "In Ephesians 5, what is the standard given to men for loving their wives?",
+      options: ["Love her as you love yourself, 50/50", "Love her as Christ loved the church — sacrificially and first", "Love her when she earns it through faithfulness", "Love her as long as she fulfils her role"],
+      correct: 1,
+      feedback: { correct: "Exactly. Christ went first. He loved before it was returned. That's the standard — not fairness, but covenant.", wrong: "The standard Paul gives is far higher than fairness. Christ gave himself up for the church before she was worthy. That's the model." }
+    },
+    reflections: [
+      "List five qualities you want in a partner. Now honestly — which of those qualities are you actively cultivating in yourself as her male equivalent?",
+      "What does your daily life look like as a man? Spiritually, emotionally, practically — are you building something she'd be proud to be part of?",
+      "What does it mean to you to 'lead' in a relationship? And does your definition involve going first or being served first?"
+    ]
+  },
+  {
+    num: 3,
+    statement: "Intensity Is Not the Same as Intimacy",
+    passage: { ref: "Song of Solomon 2:7", text: "I adjure you, O daughters of Jerusalem... do not stir up or awaken love until it pleases." },
+    unpacking: `I love your passion. It is one of the most beautiful things about you — that you feel deeply, that you love loudly, that you wrote an entire album about a three-month connection. That is a rare and extraordinary heart.
+
+But brother — we need to talk about pace. Because intensity without foundation is like a fire without a fireplace. Beautiful. Warm. And capable of burning the whole house down.
+
+What you experienced with her — the fast momentum, the passion, the explicit messages, the kisses — that wasn't love yet. It was the <em>promise</em> of love, running ahead of the foundation. The Song of Solomon, of all books, is the one that says: <strong>do not stir up or awaken love until it pleases</strong>. Not because love is dangerous — but because love is so powerful that it needs the right container to hold it.
+
+Intimacy is built slowly. It is trust accumulated over time. It is seeing someone in ordinary moments, not just charged ones. What you two had accelerated past the stages that build durability. The passion was real. The intimacy wasn't there yet to hold it.
+
+This is not shame. This is information. You now know what not to rush — and why.`,
+    quiz: {
+      q: "What is the key difference between intensity and intimacy in a relationship?",
+      options: ["Intensity is physical; intimacy is emotional", "Intensity is strong feeling; intimacy is trust and knowing built over time", "Intimacy requires marriage; intensity does not", "There is no real difference — both come from love"],
+      correct: 1,
+      feedback: { correct: "Well said. Intensity is the fire. Intimacy is the fireplace that lets it burn safely over time.", wrong: "Intensity and intimacy feel similar but are built differently. Intensity can arrive in days. Real intimacy takes months and years of ordinary moments." }
+    },
+    reflections: [
+      "Looking back at your last significant connection — at what point did the pace outrun the foundation? What were the signs?",
+      "What would it look like practically to slow down in a new connection — even when everything in you wants to go all in immediately?",
+      "The restraining order threat was painful. From a place of grace, not shame — what do you think she was experiencing that led her there? What does that teach you about pacing passion?"
+    ]
+  },
+  {
+    num: 4,
+    statement: "Purity Is a Gift to Her Future Self, Not a Transaction",
+    passage: { ref: "1 Thessalonians 4:3–4", text: "For this is the will of God, your sanctification: that you abstain from sexual immorality; that each one of you know how to control his own body in holiness and honour." },
+    unpacking: `Your purity ring is meaningful. The decision you made in that five-year relationship to set physical boundaries — even when it was late, even when things were complicated — was a man trying to honour something he believed in. Don't let the way it ended make you doubt the value of what you chose.
+
+But here's what purity is <em>not</em>: it is not a currency you spend to earn a good relationship. It is not a guarantee that God will reward your restraint with the right person. And it is not just about the physical body — explicit messages cross purity boundaries too, because purity is about the whole person: body, mind, and spirit.
+
+Purity is a gift — first to God, then to her, then to yourself. When you save the deepest intimacy for covenant, you are saying: <em>I value you enough not to consume you before I've committed to you.</em> That is profoundly countercultural. That is loving her holy — before you even know her name.
+
+The boundary isn't a cage. It's a frame. It makes the painting more beautiful, not less.`,
+    quiz: {
+      q: "According to 1 Thessalonians 4, what does controlling your body in holiness actually honour?",
+      options: ["Your reputation in the church community", "God's will for your sanctification — and the dignity of the other person", "The cultural expectation to wait until marriage", "Your own emotional protection only"],
+      correct: 1,
+      feedback: { correct: "Yes — purity honours God's design for you and treats the other person as someone worthy of full covenant, not just partial closeness.", wrong: "Paul links purity directly to sanctification — being made holy — and to how we treat others. It's relational and spiritual, not just personal." }
+    },
+    reflections: [
+      "Where specifically do your purity boundaries sit right now? Are they clear before you enter a new connection, or do you define them in the moment?",
+      "Explicit messages felt exciting in the moment. Honestly — what did they do to the dynamic of that connection over time? Did they build or consume?",
+      "What would it mean to tell someone early in a connection about your values around purity — not as a rule, but as an expression of how you want to love them?"
+    ]
+  },
+  {
+    num: 5,
+    statement: "Heartbreak Is a Teacher, Not a Verdict",
+    passage: { ref: "Romans 5:3–4", text: "We rejoice in our sufferings, knowing that suffering produces endurance, and endurance produces character, and character produces hope." },
+    unpacking: `She left. And then she married someone else — quickly, to the person who had been right there all along. I'm not going to soften that. That is a particular kind of painful. The kind that makes you question what you were even building toward.
+
+But Paul — who knew suffering from the inside — says something extraordinary. He says we don't just <em>survive</em> suffering. We <em>rejoice</em> in it. Not because pain is good, but because of what it produces when we let it do its work. <strong>Endurance. Character. Hope.</strong>
+
+The five-year relationship taught you faithfulness. The last connection taught you about pace and boundaries. The pattern since then — fast momentum, fast crash — is teaching you something about what you're looking for in yourself that external connection keeps bypassing.
+
+None of this is punishment. None of this is God saying you're not worthy of love. It is God saying: <em>I'm building something in you that requires this season.</em> The album you wrote wasn't wasted. The tears on that phone call were not wasted. Everything is curriculum.
+
+The question is not "why does this keep happening to me?" The question is: <strong>"what is being formed in me that couldn't be formed any other way?"</strong>`,
+    quiz: {
+      q: "In Romans 5, what does Paul say suffering ultimately produces at the end of the chain?",
+      options: ["Wisdom and knowledge of Scripture", "Endurance → Character → Hope", "A deeper understanding of pain", "Forgiveness and emotional healing"],
+      correct: 1,
+      feedback: { correct: "Hope — not wishful thinking, but a confident expectation grounded in God's character. That's what this season is building toward.", wrong: "Paul's chain is specific: suffering → endurance → character → hope. The endpoint is hope — a solid, grounded expectation that God is working." }
+    },
+    reflections: [
+      "What specifically has each significant connection or heartbreak taught you about yourself — not about them, but about you?",
+      "When you think about the five-year relationship ending and her marrying someone else — what is the dominant emotion? What does that emotion tell you about what you were hoping she would provide?",
+      "What character is being formed in you right now, in this in-between season, that a relationship would have bypassed?"
+    ]
+  },
+  {
+    num: 6,
+    statement: "You Lead With Strength, Not Performance",
+    passage: { ref: "1 Corinthians 16:13", text: "Be watchful, stand firm in the faith, act like men, be strong." },
+    unpacking: `There is a difference between being a romantic and being a performer. You are naturally romantic — that is a gift. But sometimes, in the urgency of wanting to be chosen, romance can tip into performance. Writing the album, making the private album — these were beautiful, genuine expressions of feeling. But given the pace and stage of that connection, they communicated something she wasn't ready to receive, and that created fear rather than security in her.
+
+<strong>A woman is not drawn to the man who needs her most. She is drawn to the man who wants her but doesn't need her to survive.</strong> That security — that groundedness — is what creates the space for her to move toward you freely rather than feeling overwhelmed.
+
+Biblical manhood is not passivity and it is not dominance. It is <em>grounded, present, initiating love that doesn't require a particular response to remain stable.</em> Jesus initiated. He pursued. He loved loudly. But he was never destabilised when love was not returned. He wept — but he didn't unravel.
+
+That is the strength this verse calls you to. Not emotional shutdown. Grounded, secure, initiated love that comes from a man who knows who he is.`,
+    quiz: {
+      q: "What is the difference between romantic expression and emotional performance in pursuit?",
+      options: ["Performance is bigger and more creative than genuine expression", "Performance seeks a specific response to feel okay; genuine expression gives freely without requiring it", "There is no real difference — both come from the heart", "Performance is wrong; romantic expression is always appropriate"],
+      correct: 1,
+      feedback: { correct: "Exactly. The test is whether you need her response to feel secure. Genuine love gives. Performance extracts.", wrong: "The key distinction is the internal driver. Performance needs a reaction to feel okay. Genuine romantic expression gives freely, trusting God with the outcome." }
+    },
+    reflections: [
+      "Think about the private album you made for her. Was that purely an expression of love, or was part of it hoping for a specific reaction? Be honest — both can be true.",
+      "What does security look like in your daily life right now — separate from any romantic connection? What grounds you?",
+      "How do you respond internally when someone you're interested in doesn't respond the way you hoped? What does that response reveal?"
+    ]
+  },
+  {
+    num: 7,
+    statement: "She Is Not a Project — She Is a Person",
+    passage: { ref: "Ephesians 5:28–29", text: "In the same way husbands should love their wives as their own bodies... for no one ever hated his own flesh, but nourishes and cherishes it." },
+    unpacking: `The words Paul uses here are extraordinary: <em>nourish</em> and <em>cherish</em>. These are not the words of management or leadership in the corporate sense. They are the words of a gardener. A gardener does not force growth — he creates the conditions for it. He protects, waters, gives light, removes what harms. And then he waits, because he knows the growth is not his to manufacture.
+
+To love a woman holy is to be obsessed with her <em>flourishing</em> — not with her performance, not with whether she fits your vision, not with fixing what you perceive as broken in her. It means asking: <em>what does she need to become fully herself?</em> And then being the kind of presence that makes that possible.
+
+This also means seeing her clearly. Not as a projection of your longing — the idealised image of who you need her to be — but as an actual person with her own history, fears, needs, and pace. One of the things that went wrong in your last connection is that the intensity of what you felt may have been partly about <strong>what she represented</strong> rather than who she actually was. That's not unique to you — we all do this. But holy love requires seeing the real person, not the dream.`,
+    quiz: {
+      q: "What do the words 'nourish' and 'cherish' in Ephesians 5 suggest about how a man should relate to his wife?",
+      options: ["He should manage and direct her development", "He should create conditions for her flourishing — like a gardener, not a manager", "He should meet her physical needs above emotional ones", "He should protect her primarily from outside threats"],
+      correct: 1,
+      feedback: { correct: "Yes — a gardener creates conditions for growth. He doesn't control the growth. That is the posture of a man who loves holy.", wrong: "The language of nourish and cherish points to something organic and patient — more like gardening than management. It's about creating the environment for her to flourish." }
+    },
+    reflections: [
+      "In your last significant connection, how much did you know about her actual inner world — her fears, her wounds, her family dynamics — versus how much were you in love with the feeling she created in you?",
+      "What does 'nurturing her femininity' mean to you practically? What specific things would you do or not do?",
+      "With the person you're currently exploring — what do you actually know about who she is, separate from how she makes you feel?"
+    ]
+  },
+  {
+    num: 8,
+    statement: "How She Thinks Is Not a Mystery to Decode — It Is a Reality to Honour",
+    passage: { ref: "1 Peter 3:7", text: "Likewise, husbands, live with your wives in an understanding way, showing honour to the woman as the weaker vessel, since they are heirs with you of the grace of life." },
+    unpacking: `"Weaker vessel" is one of the most misread phrases in the New Testament. Peter is not saying women are inferior. He is using the language of a more delicate container — the kind you handle <em>with more care</em>, not less regard. Think crystal versus plastic. Crystal is not lesser — it requires a different quality of attention.
+
+To live with a woman "in an understanding way" — the Greek is literally <em>kata gnosin</em>, "according to knowledge" — means doing the work of actually knowing her. Not assuming. Not projecting. Not interpreting her silences through your own fears.
+
+Here's some knowledge that might help: women in dating are generally reading for <em>safety and consistency</em> before they can open emotionally. Intensity early on — however genuine — can feel like pressure rather than love to someone who hasn't yet established whether you are safe. She isn't wrong for feeling that way. Her pace is not rejection. It is wisdom.
+
+When you move slower, you communicate: <em>I am not in a hurry because I am not desperate. I see you, and I'm not going anywhere.</em> That is far more attractive than any grand gesture.`,
+    quiz: {
+      q: "What does Peter mean by living with a woman 'in an understanding way' (kata gnosin)?",
+      options: ["Understanding her emotions so you can manage them", "Doing the work of actually knowing her — her pace, her needs, her way of being", "Understanding the theological role of women in Scripture", "Being patient when she is difficult to understand"],
+      correct: 1,
+      feedback: { correct: "Kata gnosin means according to knowledge — earned, real knowledge of who she actually is. It requires observation, patience, and genuine curiosity.", wrong: "The Greek kata gnosin means literally 'according to knowledge' — doing the work of truly knowing the specific person in front of you, not applying a template." }
+    },
+    reflections: [
+      "What is your instinct when a woman goes quiet or pulls back — fear, pursuit, or stillness? What would the healthiest response actually be?",
+      "What do you know about how the woman you're currently exploring experiences safety? What has she shown you about her pace?",
+      "What is one thing you could do in your current situation that would communicate 'I see you and I'm not in a hurry' rather than 'I feel strongly and I need you to respond'?"
+    ]
+  },
+  {
+    num: 9,
+    statement: "Guard Your Heart — And Hers",
+    passage: { ref: "Proverbs 4:23", text: "Keep your heart with all vigilance, for from it flow the springs of life." },
+    unpacking: `The heart in Scripture is not primarily the seat of feeling — it is the centre of the whole person. Your desires, your will, your values, your identity. "Keep your heart" means tending the very source from which your life flows.
+
+For you, guarding your heart does not mean closing it. You were made to love openly — that is not a problem to fix. It means being the gatekeeper of <em>how fast and how deep</em> you let connection go before the foundation is ready to hold it.
+
+And here's the part that doesn't get said enough: <strong>you are also called to guard her heart.</strong> A man who loves holy recognises that she is entrusting him with something precious when she begins to open to him. Her trust, her hope, her emotional vulnerability — these are sacred. To move too fast, to stir up what cannot yet be held, to make promises with your passion that your commitment hasn't yet backed up — that is not loving her holy. That is consuming something that wasn't yours to take yet.
+
+Guarding her heart is an act of love. It says: <em>I care more about your wholeness than about the feeling this gives me right now.</em>`,
+    quiz: {
+      q: "In Proverbs 4:23, what does 'the springs of life flow from the heart' mean for how we guard it?",
+      options: ["Our feelings determine our quality of life, so we must manage them", "Everything we do, pursue and become flows from what we let occupy our hearts — so we guard the source", "The heart needs protection from emotional pain above all else", "Spiritual life flows from the heart so we must study Scripture daily"],
+      correct: 1,
+      feedback: { correct: "Yes — the heart is the source. What occupies it shapes everything downstream. Guarding it means tending the very origin of who you are and how you love.", wrong: "The springs of life flowing from the heart means that what you allow in your heart shapes your entire life, pursuits, and loves. Guard the source, and everything downstream is healthier." }
+    },
+    reflections: [
+      "What currently occupies your heart most in the area of romance? Is it her specifically — or is it the idea of what she represents?",
+      "What would it look like in practice to guard her heart in your current situation — what would you do differently or more slowly?",
+      "Are there areas where you have let someone into your heart before they had demonstrated they were trustworthy with it? What was the cost?"
+    ]
+  },
+  {
+    num: 10,
+    statement: "You Are Already Loved. Now Go Love Freely.",
+    passage: { ref: "Romans 8:38–39", text: "For I am sure that neither death nor life, nor angels nor rulers, nor things present nor things to come, nor powers, nor height nor depth, nor anything else in all creation, will be able to separate us from the love of God in Christ Jesus our Lord." },
+    unpacking: `We've come to the end of these ten days, and I want you to hear the whole thing one more time — in the simplest way I know how to say it.
+
+You are not too much. You are not broken. You are not cursed in love. You are a man with an enormous heart who has been trying to love from a place of hunger rather than abundance — and the world's response to hungry love is complicated.
+
+But you have access to a love that is not complicated at all. A love that is not contingent on your performance, your music, your purity, or your passion. A love so complete that even death cannot interrupt it. <strong>That is the love that belongs to you, right now, today.</strong>
+
+When you know you are that loved — when you have received it so completely that it fills the hungry places — something changes. You stop pursuing relationships to be completed. You start offering love because you have more than enough. You stop needing her to choose you to feel worthy. You already know you are worthy, because the God of the universe chose you first.
+
+<em>Love her holy.</em> Lead her gently. Pursue her patiently. Guard her heart fiercely. Nourish her flourishing. And underneath all of it — let God love you so completely that everything you give her comes from overflow, not from need.
+
+That is the man you are becoming. I'm proud of you.`,
+    quiz: {
+      q: "According to Romans 8:38–39, what can separate us from the love of God?",
+      options: ["Sin and repeated failure in relationships", "Nothing — not death, life, present, future, or anything in all creation", "Persistent unbelief and spiritual hardness", "Walking outside of God's will for a long period"],
+      correct: 1,
+      feedback: { correct: "Nothing. Not a single thing in all creation. That love is yours — unconditionally, permanently, completely. Rest in that today.", wrong: "Paul's list is exhaustive and intentional — nothing in all creation can separate you. Not your past, not your failures, not this season. The love is permanent." }
+    },
+    reflections: [
+      "What is one thing from these ten days that has genuinely shifted something in how you think about love, relationships, or yourself?",
+      "If you could write a letter to your future partner right now — before you've found her — what would you want her to know about the man you are becoming?",
+      "What is one specific thing you will do differently in your current connection, starting this week, because of what you've discovered in this journal?"
+    ]
+  }
+];
+
+// Calendar layout: 16 cells, 10 days + 6 heart cells
+const calLayout = [
+  {type:'day', num:1}, {type:'heart', si:0}, {type:'day', num:2}, {type:'day', num:3},
+  {type:'day', num:4}, {type:'day', num:5}, {type:'heart', si:1}, {type:'day', num:6},
+  {type:'day', num:7}, {type:'heart', si:2}, {type:'day', num:8}, {type:'heart', si:3},
+  {type:'day', num:9}, {type:'day', num:10}, {type:'heart', si:4}, {type:'heart', si:0}
+];
+
+// ── STORAGE ──
+function saveNote(day, text) {
+  localStorage.setItem('lhh_note_' + day, text);
+}
+function loadNote(day) {
+  return localStorage.getItem('lhh_note_' + day) || '';
+}
+function markDone(day) {
+  const done = JSON.parse(localStorage.getItem('lhh_done') || '[]');
+  if (!done.includes(day)) done.push(day);
+  localStorage.setItem('lhh_done', JSON.stringify(done));
+}
+function isDone(day) {
+  const done = JSON.parse(localStorage.getItem('lhh_done') || '[]');
+  return done.includes(day);
+}
+
+// ── BUILD CALENDAR ──
+function buildCalendar() {
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  calLayout.forEach((cell, i) => {
+    const el = document.createElement('div');
+    el.className = 'cal-cell';
+    if (cell.type === 'day') {
+      el.className += ' cal-day';
+      if (isDone(cell.num)) el.classList.add('done');
+      el.innerHTML = `<div class="day-num">${cell.num}</div><div class="day-label">Day</div>`;
+      el.onclick = () => openDay(cell.num);
+    } else {
+      el.className += ' cal-heart';
+      el.innerHTML = '♥';
+      el.onclick = () => openScripture(cell.si);
+    }
+    grid.appendChild(el);
+  });
+}
+
+// ── PAGE TRANSITIONS ──
+function showIntro() {
+  document.getElementById('page-intro').classList.add('active');
+  document.getElementById('page-calendar').style.display = 'none';
+}
+function showCalendar() {
+  document.getElementById('page-intro').classList.remove('active');
+  document.getElementById('page-calendar').style.display = 'block';
+  buildCalendar();
+}
+
+// ── PRELOADER ──
+function showPreloader(dayNum, cb) {
+  const phrases = preloaderPhrases;
+  const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+  document.getElementById('preloaderPhrase').innerHTML = phrase;
+  const pre = document.getElementById('preloader');
+  pre.classList.add('show');
+  setTimeout(() => {
+    pre.classList.remove('show');
+    cb();
+  }, 1800);
+}
+
+// ── OPEN DAY ──
+function openDay(num) {
+  showPreloader(num, () => {
+    renderDevotional(num);
+    document.getElementById('devotional-overlay').classList.add('show');
+    document.getElementById('devotional-overlay').scrollTop = 0;
+    markDone(num);
+    buildCalendar();
+  });
+}
+
+// ── RENDER DEVOTIONAL ──
+function renderDevotional(num) {
+  const d = days[num - 1];
+  const savedNote = loadNote(num);
+  const quizId = 'quiz_' + num;
+
+  const reflectionsHTML = d.reflections.map((r, i) => `
+    <div class="reflection-block">
+      <div class="reflection-q">${i + 1}. ${r}</div>
+    </div>
+  `).join('');
+
+  const optionsHTML = d.quiz.options.map((opt, i) => `
+    <button class="quiz-option" onclick="answerQuiz(${i}, ${d.quiz.correct}, '${quizId}', ${d.quiz.options.length})">
+      <span class="quiz-letter">${String.fromCharCode(65+i)}.</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+
+  document.getElementById('devBody').innerHTML = `
+    <div class="dev-day-label">Day ${num} of 10</div>
+    <h1 class="dev-statement">${d.statement}</h1>
+    <div class="dev-rule"></div>
+
+    <div class="section-label">Today's Passage</div>
+    <div class="passage-block">
+      <div class="passage-ref">${d.passage.ref}</div>
+      <div class="passage-text">"${d.passage.text}"</div>
+    </div>
+
+    <div class="section-label">Let's Unpack This Together</div>
+    <div class="dev-prose">${d.unpacking}</div>
+
+    <div class="section-label">Pop Quiz 🎯</div>
+    <div class="quiz-block">
+      <div class="quiz-q">${d.quiz.q}</div>
+      <div class="quiz-options" id="${quizId}">${optionsHTML}</div>
+      <div class="quiz-feedback" id="${quizId}_feedback"></div>
+    </div>
+
+    <div class="section-label">Reflect on This</div>
+    <div style="margin-bottom:32px">${reflectionsHTML}</div>
+
+    <div class="section-label">Your Notes</div>
+    <textarea class="notes-area" id="notes_${num}" placeholder="Write your thoughts here... what's surfacing for you today?">${savedNote}</textarea>
+    <div class="notes-actions">
+      <button class="btn-save" onclick="saveNoteNow(${num})">Save Notes</button>
+      <button class="btn-pdf" onclick="downloadPDF(${num})">Download as PDF</button>
+      <span class="save-confirm" id="saveConfirm_${num}">✓ Saved</span>
+    </div>
+  `;
+}
+
+// ── QUIZ ──
+function answerQuiz(chosen, correct, quizId, total) {
+  const container = document.getElementById(quizId);
+  const feedback = document.getElementById(quizId + '_feedback');
+  const btns = container.querySelectorAll('.quiz-option');
+  const d = days.find(x => 'quiz_' + x.num === quizId);
+
+  btns.forEach((b, i) => {
+    b.classList.add('disabled');
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen && chosen !== correct) b.classList.add('wrong');
+  });
+
+  const isRight = chosen === correct;
+  feedback.classList.add('show', isRight ? 'correct-fb' : 'wrong-fb');
+  feedback.textContent = isRight ? d.quiz.feedback.correct : d.quiz.feedback.wrong;
+}
+
+// ── SAVE NOTE ──
+function saveNoteNow(num) {
+  const text = document.getElementById('notes_' + num).value;
+  saveNote(num, text);
+  const conf = document.getElementById('saveConfirm_' + num);
+  conf.classList.add('show');
+  setTimeout(() => conf.classList.remove('show'), 2000);
+}
+
+// ── PDF ──
+function downloadPDF(num) {
+  saveNoteNow(num);
+  const d = days[num - 1];
+  const notes = document.getElementById('notes_' + num).value || '(No notes recorded)';
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const W = doc.internal.pageSize.getWidth();
+  const margin = 20;
+  const usable = W - margin * 2;
+  let y = margin;
+
+  const addText = (text, size, style, color, lineH) => {
+    doc.setFontSize(size);
+    doc.setFont('times', style || 'normal');
+    doc.setTextColor(...(color || [40, 10, 10]));
+    const lines = doc.splitTextToSize(text, usable);
+    lines.forEach(line => {
+      if (y > 270) { doc.addPage(); y = margin; }
+      doc.text(line, margin, y);
+      y += lineH || size * 0.5;
+    });
+    y += 2;
+  };
+
+  // Header
+  doc.setFillColor(79, 11, 11);
+  doc.rect(0, 0, W, 28, 'F');
+  doc.setFontSize(22); doc.setFont('times','bolditalic'); doc.setTextColor(255,255,255);
+  doc.text('Love Her Holy', margin, 14);
+  doc.setFontSize(11); doc.setFont('times','italic'); doc.setTextColor(245,157,171);
+  doc.text(`Day ${num} — ${d.statement}`, margin, 22);
+  y = 38;
+
+  addText(`Day ${num} of 10`, 10, 'normal', [169, 10, 38]);
+  addText(d.statement, 18, 'bolditalic', [79, 11, 11], 9);
+  y += 4;
+  addText(`"${d.passage.text}"`, 12, 'italic', [100, 30, 30]);
+  addText(`— ${d.passage.ref}`, 10, 'normal', [169, 10, 38]);
+  y += 4;
+
+  const plain = d.unpacking.replace(/<[^>]+>/g, '');
+  addText(plain, 11, 'normal', [40, 10, 10], 6);
+  y += 6;
+
+  addText('Reflection Questions:', 13, 'bold', [79, 11, 11]);
+  d.reflections.forEach((r, i) => {
+    addText(`${i + 1}. ${r}`, 11, 'italic', [60, 20, 20], 6);
+  });
+  y += 6;
+
+  addText('My Notes:', 13, 'bold', [79, 11, 11]);
+  addText(notes, 11, 'normal', [40, 10, 10], 6);
+
+  // Footer
+  doc.setFontSize(9); doc.setFont('times','italic'); doc.setTextColor(169, 10, 38);
+  doc.text('Love Her Holy — A 10-Day Devotional Journal', margin, 290);
+
+  doc.save(`LoveHerHoly-Day${num}.pdf`);
+}
+
+// ── CLOSE DEVOTIONAL ──
+function closeDevotional() {
+  document.getElementById('devotional-overlay').classList.remove('show');
+}
+
+// ── SCRIPTURE ──
+function openScripture(si) {
+  const s = scriptures[si % scriptures.length];
+  document.getElementById('scriptureRef').textContent = s.ref;
+  document.getElementById('scriptureText').textContent = `"${s.text}"`;
+  document.getElementById('scripture-overlay').classList.add('show');
+}
+function closeScripture() {
+  document.getElementById('scripture-overlay').classList.remove('show');
+}
+
+// ── INIT ──
+document.getElementById('page-intro').classList.add('active');
+</script>
+</body>
+</html>
