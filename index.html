@@ -62,7 +62,7 @@ h2>span[aria-hidden]{display:none!important;}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(--white);overflow-x:hidden;}
+html,body{height:100%;font-family:var(--body-font);background:#000;color:var(--white);overflow-x:hidden;}
 
 /* GINGHAM — matches uploaded image: pink base, dark red grid */
 .gingham-bg{
@@ -77,7 +77,7 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
 
 /* ══ INTRO — fully viewport locked, two-screen transition ══ */
 #page-intro{
-  background:#340904;
+  background:#000;
   position:fixed;inset:0;
   display:none;
   overflow:hidden;
@@ -124,12 +124,14 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
 }
 .intro-title{
   font-family:var(--heading-font);
-  font-size:clamp(60px,12vw,110px);
-  font-weight:normal;line-height:.88;
+  font-size:clamp(44px,9vw,96px);
+  font-weight:normal;line-height:1;
   color:var(--white);text-align:center;width:100%;
+  white-space:nowrap;
   animation:fadeUp .9s .25s ease both;
+  overflow:hidden;position:relative;
 }
-.intro-title span{display:block;color:var(--rose);}
+.intro-title .rose{color:var(--rose);}
 .intro-rule{
   width:70px;height:1px;
   background:linear-gradient(90deg,transparent,var(--rose),transparent);
@@ -184,7 +186,7 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
 .btn-begin:hover::before{transform:scaleX(1);}
 
 /* ══ CALENDAR ══ */
-#page-calendar{background:#340904;padding:36px 16px 60px;min-height:100vh;display:block;}
+#page-calendar{background:#000;padding:36px 16px 80px;min-height:100vh;display:block;}
 .calendar-header{text-align:center;padding:28px 0 24px;}
 .calendar-title{font-family:var(--heading-font);font-size:clamp(40px,7vw,68px);color:var(--white);text-align:center;}
 .calendar-title span{color:var(--rose);}
@@ -214,16 +216,16 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
 }
 
 /* ══ PRELOADER ══ */
-#preloader{display:none;position:fixed;inset:0;background:var(--darkest);z-index:200;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;}
+#preloader{display:none;position:fixed;inset:0;background:#000;z-index:200;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;}
 #preloader.show{display:flex;}
 .preloader-ring{width:60px;height:60px;border:2px solid rgba(226,107,137,.2);border-top-color:var(--rose);border-radius:50%;animation:spin .9s linear infinite;margin-bottom:28px;}
 .preloader-phrase{font-family:var(--heading-font);font-size:clamp(22px,5vw,38px);color:var(--white);max-width:340px;line-height:1.4;}
 .preloader-phrase span{color:var(--rose);}
 
 /* ══ SCRIPTURE OVERLAY ══ */
-#scripture-overlay{display:none;position:fixed;inset:0;background:rgba(56,2,0,.94);z-index:150;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);}
+#scripture-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:150;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);}
 #scripture-overlay.show{display:flex;}
-.scripture-card{background:var(--deep);border:1px solid rgba(226,107,137,.35);max-width:500px;width:100%;padding:52px 40px;text-align:center;}
+.scripture-card{background:#111;border:1px solid rgba(226,107,137,.35);max-width:500px;width:100%;padding:52px 40px;text-align:center;}
 .scripture-ref{font-family:var(--body-font);font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--rose);margin-bottom:20px;}
 .scripture-text{font-family:var(--body-font);font-size:clamp(16px,2.5vw,21px);font-style:italic;line-height:1.9;color:var(--white);}
 .scripture-close{margin-top:32px;background:none;border:1px solid rgba(226,107,137,.4);color:var(--blush);padding:10px 28px;font-family:var(--body-font);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;}
@@ -246,7 +248,7 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
 .dev-close{background:none;border:1px solid rgba(255,255,255,.3);color:var(--white);padding:8px 18px;font-family:var(--body-font);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;}
 .dev-close:hover{background:var(--rose);border-color:var(--rose);}
 
-.dev-body{max-width:720px;margin:0 auto;padding:36px 16px 60px;}
+.dev-body{max-width:720px;margin:0 auto;padding:36px 16px 100px;}
 
 .dev-card{background:rgba(255,248,248,.97);border-radius:4px;padding:36px 32px;margin-bottom:18px;box-shadow:0 2px 20px rgba(79,11,11,.14);}
 
@@ -283,19 +285,43 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
 .quiz-feedback.show{display:block;}
 .quiz-feedback.correct-fb{border-color:#0f6e56;color:#0a4a38;background:rgba(15,110,86,.05);}
 .quiz-feedback.wrong-fb{border-color:var(--crimson);color:var(--crimson);background:rgba(162,10,38,.04);}
-.quiz-response-label{font-family:var(--body-font);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--deep);opacity:.55;margin-bottom:6px;margin-top:8px;}
-.quiz-response-area{width:100%;min-height:76px;border:1px solid rgba(79,11,11,.14);background:#fdf8f8;padding:10px 12px;font-family:var(--body-font);font-size:13px;color:var(--deep);resize:vertical;background-image:repeating-linear-gradient(transparent,transparent 22px,rgba(79,11,11,.07) 22px,rgba(79,11,11,.07) 23px);background-attachment:local;}
-.quiz-response-area:focus{outline:1px solid var(--rose);}
+.quiz-response-label{font-family:var(--body-font);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--deep);opacity:.55;margin-bottom:4px;margin-top:10px;}
+
+/* ── TEXTAREA LINE FIX ──
+   All textareas share an explicit 28px line-height.
+   The background stripe repeats at exactly 28px and is offset
+   by 8px top padding so the first stripe lands under the first line. */
+.quiz-response-area,
+.reflection-area,
+.notes-area {
+  width:100%;
+  font-family:var(--body-font);
+  font-size:14px;
+  line-height:28px;
+  padding:8px 12px 4px;
+  color:var(--deep);
+  border:1px solid rgba(79,11,11,.18);
+  resize:vertical;
+  display:block;
+  background-color:#fdf8f8;
+  background-image:repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 27px,
+    rgba(162,10,38,.15) 27px,
+    rgba(162,10,38,.15) 28px
+  );
+  background-position:0 8px;
+  background-attachment:local;
+}
+.quiz-response-area{min-height:84px;}
+.reflection-area{min-height:112px;}
+.notes-area{min-height:140px;background-color:#fff;}
+.quiz-response-area:focus,.reflection-area:focus,.notes-area:focus{outline:1px solid var(--rose);}
 
 /* REFLECTIONS */
 .reflection-item{margin-bottom:16px;border:1px solid rgba(79,11,11,.1);background:white;padding:18px;}
 .reflection-q{font-family:var(--body-font);font-size:15px;font-style:italic;color:var(--deep);margin-bottom:12px;line-height:1.65;padding-left:13px;border-left:2px solid var(--rose);}
-.reflection-area{width:100%;min-height:110px;border:1px solid rgba(79,11,11,.12);background:#fdf8f8;padding:12px;font-family:var(--body-font);font-size:13px;color:var(--deep);resize:vertical;background-image:repeating-linear-gradient(transparent,transparent 25px,rgba(79,11,11,.07) 25px,rgba(79,11,11,.07) 26px);background-attachment:local;line-height:1.75;}
-.reflection-area:focus{outline:1px solid var(--rose);}
-
-/* NOTES */
-.notes-area{width:100%;min-height:150px;border:1px solid rgba(79,11,11,.2);background:white;padding:14px;font-family:var(--body-font);font-size:14px;line-height:1.85;color:var(--deep);resize:vertical;background-image:repeating-linear-gradient(transparent,transparent 28px,rgba(79,11,11,.08) 28px,rgba(79,11,11,.08) 29px);background-attachment:local;}
-.notes-area:focus{outline:1px solid var(--rose);}
 
 .notes-actions{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;align-items:center;}
 .btn-complete{padding:14px 32px;background:var(--deep);color:var(--white);border:none;font-family:var(--body-font);font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .3s;}
@@ -320,7 +346,40 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
 .back-btn{background:none;border:none;color:var(--blush);font-family:var(--body-font);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:block;text-align:center;margin:0 auto 18px;opacity:.65;transition:opacity .2s;}
 .back-btn:hover{opacity:1;}
 
-/* music is fully hidden — no visible UI */
+/* ══ MUSIC BAR ══ */
+#music-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:500;
+  background:#000;
+  border-top:1px solid rgba(226,107,137,.28);
+  height:46px;
+  display:flex;align-items:center;
+  gap:8px;padding:0 16px;
+  box-shadow:0 -2px 18px rgba(0,0,0,.7);
+}
+.mb-note{font-size:13px;color:var(--rose);flex-shrink:0;}
+.mb-title{
+  font-family:var(--body-font);font-size:10px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(245,157,171,.55);
+  flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.mb-btn{
+  background:none;
+  border:1px solid rgba(226,107,137,.35);
+  color:var(--rose);
+  width:28px;height:28px;border-radius:50%;
+  font-size:11px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all .2s;
+  padding:0;line-height:1;
+}
+.mb-btn:hover{background:var(--rose);color:#000;border-color:var(--rose);}
+.mb-btn.paused-state{background:rgba(226,107,137,.15);}
+#mb-vol-label{
+  font-family:var(--body-font);font-size:10px;
+  color:rgba(245,157,171,.5);
+  min-width:26px;text-align:center;flex-shrink:0;
+}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -337,7 +396,7 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
     <!-- SCREEN 1: Title only -->
     <div class="intro-screen">
       <div class="intro-ornament">A Gift of Love · For the One Who Loves Too Well</div>
-      <h1 class="intro-title">Love<br><span>Her Holy</span></h1>
+      <h1 class="intro-title">Love <span class="rose">Her Holy</span></h1>
       <div class="intro-rule"></div>
       <div class="intro-tagline">Neil's 10-Day Devotional Journal</div>
       <!-- progress dots -->
@@ -402,8 +461,19 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
   </div>
 </div>
 
-<!-- HIDDEN AUTOPLAY MUSIC — YouTube IFrame API -->
-<div id="yt-holder" style="position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;overflow:hidden;pointer-events:none;opacity:0;" aria-hidden="true">
+<!-- MUSIC BAR -->
+<div id="music-bar">
+  <span class="mb-note">♪</span>
+  <span class="mb-title">Love Her Holy — Theme</span>
+  <button class="mb-btn" id="mb-play" title="Play / Pause" onclick="mbToggle()">▶</button>
+  <button class="mb-btn" id="mb-stop" title="Stop" onclick="mbStop()">■</button>
+  <button class="mb-btn" id="mb-vdown" title="Volume down" onclick="mbVol(-10)">−</button>
+  <span id="mb-vol-label">22%</span>
+  <button class="mb-btn" id="mb-vup" title="Volume up" onclick="mbVol(10)">+</button>
+</div>
+
+<!-- Hidden YouTube player target -->
+<div style="position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;overflow:hidden;opacity:0;pointer-events:none;" aria-hidden="true">
   <div id="yt-player"></div>
 </div>
 
@@ -725,33 +795,33 @@ function closeScripture(){document.getElementById('scripture-overlay').classList
 document.getElementById('page-intro').classList.add('active');
 document.body.style.overflow='hidden';
 
-/* ── 5-SECOND INTRO TRANSITION ──
-   Screen 1 (title) shows for 5s, then slides to Screen 2 (bio + button).
-   Dots update to reflect current screen.                               */
+/* ── 5-SECOND INTRO TRANSITION ── */
 setTimeout(function(){
   const track=document.getElementById('introTrack');
   if(track){
     track.classList.add('slide');
-    // swap dot states
     document.getElementById('dot0').classList.remove('active');
     document.getElementById('dot1').classList.add('active');
     document.getElementById('dot0b').classList.remove('active');
     document.getElementById('dot1b').classList.add('active');
   }
-}, 5000);
+},5000);
 
-/* ── MUSIC AUTOPLAY — YouTube IFrame API ──
-   Browsers block audio without a user gesture. Strategy:
-   1. Load the YT API immediately so the player is ready.
-   2. On the FIRST user interaction anywhere on the page (click/touch/key),
-      unmute and play. This is the most reliable cross-browser approach.
-   3. Also attempt immediate autoplay — it works on mobile Safari after
-      page load and on most desktop browsers.                            */
+/* ══ MUSIC PLAYER ══
+   Strategy:
+   - YouTube IFrame API loads the player hidden off-screen.
+   - Player starts MUTED so the browser allows autoplay immediately.
+   - On the very first user interaction (click/touch/key), we unmute.
+   - Controls: Play/Pause toggle, Stop (pause + reset), Vol −/+.
+   - Volume state is tracked in mbVolume (0–100).
+*/
 let ytPlayer = null;
 let ytReady  = false;
-let playRequested = false;
+let mbVolume = 22;          // current volume 0–100
+let mbPlaying = false;      // tracks play state for button icon
+let mbUnmuted = false;      // tracks whether we have unmuted yet
 
-// Inject YouTube IFrame API
+/* Inject YT IFrame API */
 (function(){
   const s=document.createElement('script');
   s.src='https://www.youtube.com/iframe_api';
@@ -759,8 +829,8 @@ let playRequested = false;
 })();
 
 function onYouTubeIframeAPIReady(){
-  ytPlayer = new YT.Player('yt-player',{
-    height:'1', width:'1',
+  ytPlayer=new YT.Player('yt-player',{
+    height:'1',width:'1',
     videoId:'R9LSain-Bk0',
     playerVars:{
       autoplay:1,
@@ -773,42 +843,82 @@ function onYouTubeIframeAPIReady(){
       rel:0,
       iv_load_policy:3,
       playsinline:1,
-      mute:1          // start muted (required for autoplay without gesture)
+      mute:1          // MUTED so browser allows autoplay without gesture
     },
     events:{
       onReady:function(e){
         ytReady=true;
-        e.target.playVideo();          // plays muted immediately
-        // Try to unmute right away (works on many browsers)
-        tryUnmute();
+        mbPlaying=true;
+        mbUpdateBtn();
+        e.target.playVideo();
+        // Attempt immediate unmute — works on desktop Chrome/Firefox
+        setTimeout(function(){ doUnmute(); },300);
       },
       onStateChange:function(e){
-        if(e.data===YT.PlayerState.ENDED) e.target.playVideo();
+        if(e.data===YT.PlayerState.PLAYING){mbPlaying=true;mbUpdateBtn();}
+        if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.ENDED){
+          mbPlaying=false;mbUpdateBtn();
+        }
+        if(e.data===YT.PlayerState.ENDED){e.target.playVideo();}
       }
     }
   });
 }
 
-function tryUnmute(){
+function doUnmute(){
   if(!ytPlayer||!ytReady) return;
-  try{
-    ytPlayer.unMute();
-    ytPlayer.setVolume(22);  // medium-low: 22 / 100
-  }catch(e){}
+  try{ytPlayer.unMute();ytPlayer.setVolume(mbVolume);mbUnmuted=true;}catch(err){}
 }
 
-/* On FIRST user interaction, unmute.
-   This handles browsers that block audio until a gesture.             */
+/* First-gesture unmute — handles Safari and strict browsers */
 function onFirstGesture(){
-  tryUnmute();
-  // Remove listeners after first fire
+  doUnmute();
   document.removeEventListener('click',   onFirstGesture);
   document.removeEventListener('touchend',onFirstGesture);
   document.removeEventListener('keydown', onFirstGesture);
 }
-document.addEventListener('click',    onFirstGesture, {once:true});
-document.addEventListener('touchend', onFirstGesture, {once:true});
-document.addEventListener('keydown',  onFirstGesture, {once:true});
+document.addEventListener('click',    onFirstGesture,{once:true});
+document.addEventListener('touchend', onFirstGesture,{once:true});
+document.addEventListener('keydown',  onFirstGesture,{once:true});
+
+/* Update play button icon */
+function mbUpdateBtn(){
+  const btn=document.getElementById('mb-play');
+  if(!btn) return;
+  btn.textContent = mbPlaying ? '❚❚' : '▶';
+  btn.classList.toggle('paused-state',!mbPlaying);
+}
+
+/* Update volume label */
+function mbUpdateVol(){
+  const lbl=document.getElementById('mb-vol-label');
+  if(lbl) lbl.textContent=mbVolume+'%';
+}
+
+/* Play / Pause toggle */
+function mbToggle(){
+  if(!ytPlayer||!ytReady) return;
+  doUnmute(); // ensure unmuted on interaction
+  if(mbPlaying){ytPlayer.pauseVideo();}
+  else{ytPlayer.playVideo();}
+}
+
+/* Stop — pause and seek to start */
+function mbStop(){
+  if(!ytPlayer||!ytReady) return;
+  ytPlayer.pauseVideo();
+  ytPlayer.seekTo(0);
+  mbPlaying=false;
+  mbUpdateBtn();
+}
+
+/* Volume adjust */
+function mbVol(delta){
+  doUnmute();
+  mbVolume=Math.max(0,Math.min(100,mbVolume+delta));
+  if(ytPlayer&&ytReady) ytPlayer.setVolume(mbVolume);
+  mbUpdateVol();
+}
 </script>
 </body>
 </html>
