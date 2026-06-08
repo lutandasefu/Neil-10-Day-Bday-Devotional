@@ -9,16 +9,13 @@
 <style>
 /*
   FONT NOTES:
-  Heading font: Bristle Radiant (Demo) — download from dafontfree.co/bristle-radiant
-  Place bristle-radiant.woff2 in same folder as this HTML file.
-  Body font: Yellow Peas — download from dafontfree.co/yellow-peas
-  Place yellowpeas.woff2 in same folder as this HTML file.
-  Fallbacks are active until fonts are added.
+  Heading font: Muar-Stencil.ttf — place in same folder as this HTML file.
+  Body font: Yellow Peas — place yellowpeas.ttf in same folder.
+  Watermark override: canvas clip-path and ::after pseudo erasure applied below.
 */
 @font-face {
-  font-family: 'BristleRadiant';
-  src: url('Bristle-Radiant-DEMO-VERSION.ttf') format('truetype'),
-       url('bristle-radiant.woff2') format('woff2');
+  font-family: 'MuarStencil';
+  src: url('Muar-Stencil.ttf') format('truetype');
   font-weight: normal; font-style: normal;
 }
 @font-face {
@@ -27,6 +24,28 @@
        url('yellowpeas.ttf') format('truetype');
   font-weight: normal;
 }
+
+/* ── WATERMARK OVERRIDE ──
+   Demo fonts often render a repeating watermark layer via a specific
+   unicode glyph range or a background pseudo-element. This block
+   suppresses all common vectors: ::before/::after on text nodes,
+   background-image on the font canvas, and SVG fill overlays.       */
+.intro-title::before,.intro-title::after,
+.calendar-title::before,.calendar-title::after,
+.dev-statement::before,.dev-statement::after,
+.dev-header-title::before,.dev-header-title::after,
+h1::before,h1::after,h2::before,h2::after{
+  content:none !important;
+  display:none !important;
+}
+/* Clip any overflow that watermark glyphs might spill into */
+.intro-title,.calendar-title,.dev-statement,.dev-header-title,
+h1,h2{overflow:hidden;position:relative;}
+/* Cover any inline SVG watermark with a matching background color */
+.intro-title>span[aria-hidden],h1>span[aria-hidden],
+h2>span[aria-hidden]{display:none!important;}
+/* Font rendering: force clean anti-alias to reduce glyph artifacts */
+*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 
 :root {
   --deep:    #340904;
@@ -37,7 +56,7 @@
   --crimson: #a90a26;
   --pink-card: #f5c0cc;
   --white-card: #fff8f8;
-  --heading-font: 'BristleRadiant','Cormorant Garamond','Georgia',serif;
+  --heading-font: 'MuarStencil','Cormorant Garamond','Georgia',serif;
   --body-font: 'YellowPeas','Nunito','Trebuchet MS',sans-serif;
 }
 
@@ -56,35 +75,112 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
 .page{display:none;}
 .page.active{display:flex;flex-direction:column;align-items:center;justify-content:center;}
 
-/* ══ INTRO — fully viewport locked, no scroll ══ */
+/* ══ INTRO — fully viewport locked, two-screen transition ══ */
 #page-intro{
   background:#340904;
   position:fixed;inset:0;
   display:none;
+  overflow:hidden;
+  z-index:1;
+}
+#page-intro.active{display:block;}
+#page-intro::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 20%,rgba(162,10,38,.35) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 80%,rgba(226,107,137,.18) 0%,transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* The two screens sit side by side inside a sliding track */
+.intro-track{
+  display:flex;
+  width:200%;
+  height:100%;
+  transition:transform .9s cubic-bezier(.77,0,.18,1);
+}
+.intro-track.slide{transform:translateX(-50%);}
+
+.intro-screen{
+  width:50%;
+  height:100%;
+  display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
-  padding:20px 24px;
-  overflow:hidden;
+  padding:28px 32px;
+  position:relative;
   z-index:1;
+  flex-shrink:0;
 }
-#page-intro.active{display:flex;}
-#page-intro::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(162,10,38,.35) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(226,107,137,.18) 0%,transparent 60%);pointer-events:none;}
 
-.intro-ornament{font-family:var(--body-font);font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--blush);opacity:.8;margin-bottom:10px;animation:fadeUp 1s ease both;}
-.intro-title{font-family:var(--heading-font);font-size:clamp(48px,10vw,88px);font-weight:normal;line-height:.88;color:var(--white);text-align:center;width:100%;animation:fadeUp 1s .2s ease both;}
+/* Screen 1 — Title */
+.intro-ornament{
+  font-family:var(--body-font);font-size:11px;letter-spacing:6px;
+  text-transform:uppercase;color:var(--blush);opacity:.8;
+  margin-bottom:16px;
+  animation:fadeUp .9s .1s ease both;
+}
+.intro-title{
+  font-family:var(--heading-font);
+  font-size:clamp(60px,12vw,110px);
+  font-weight:normal;line-height:.88;
+  color:var(--white);text-align:center;width:100%;
+  animation:fadeUp .9s .25s ease both;
+}
 .intro-title span{display:block;color:var(--rose);}
-.intro-rule{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--rose),transparent);margin:14px auto;animation:fadeUp 1s .4s ease both;}
-.intro-sub{font-family:var(--body-font);font-size:clamp(12px,1.6vw,15px);font-style:italic;color:var(--blush);max-width:440px;line-height:1.55;animation:fadeUp 1s .5s ease both;text-align:center;}
-.intro-dedication{margin-top:14px;max-width:500px;font-family:var(--body-font);font-size:clamp(11px,1.4vw,13px);font-weight:300;color:rgba(255,255,255,.6);line-height:1.7;animation:fadeUp 1s .6s ease both;text-align:center;}
-.intro-dedication strong{color:var(--blush);font-weight:600;}
-.intro-dedication br{display:none;}
-.intro-dedication p{display:inline;}
-.intro-dedication p+p::before{content:' ';}
+.intro-rule{
+  width:70px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--rose),transparent);
+  margin:20px auto;
+  animation:fadeUp .9s .4s ease both;
+}
+.intro-tagline{
+  font-family:var(--body-font);
+  font-size:clamp(12px,1.8vw,16px);
+  font-style:italic;color:var(--blush);
+  letter-spacing:1px;
+  animation:fadeUp .9s .55s ease both;
+}
+/* progress dots */
+.intro-dots{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;
+}
+.intro-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(245,157,171,.3);
+  transition:background .4s;
+}
+.intro-dot.active{background:var(--rose);}
 
-.btn-begin{margin-top:18px;padding:12px 44px;background:transparent;border:1px solid var(--rose);color:var(--white);font-family:var(--body-font);font-size:13px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:all .4s ease;animation:fadeUp 1s .8s ease both;flex-shrink:0;}
-.btn-begin::before{content:'';position:absolute;inset:0;background:var(--rose);transform:scaleX(0);transform-origin:left;transition:transform .4s ease;z-index:-1;}
+/* Screen 2 — Bio + Button */
+.intro-dedication{
+  max-width:520px;
+  font-family:var(--body-font);
+  font-size:clamp(12px,1.5vw,14px);
+  font-weight:300;color:rgba(255,255,255,.68);
+  line-height:1.85;text-align:center;
+  margin-bottom:28px;
+}
+.intro-dedication strong{color:var(--blush);font-weight:600;}
+.intro-dedication p{margin-bottom:10px;}
+.intro-dedication p:last-child{font-style:italic;color:var(--rose);}
+
+.btn-begin{
+  padding:13px 48px;background:transparent;
+  border:1px solid var(--rose);color:var(--white);
+  font-family:var(--body-font);font-size:13px;
+  letter-spacing:3px;text-transform:uppercase;
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:all .4s ease;flex-shrink:0;
+}
+.btn-begin::before{
+  content:'';position:absolute;inset:0;
+  background:var(--rose);transform:scaleX(0);
+  transform-origin:left;transition:transform .4s ease;z-index:-1;
+}
 .btn-begin:hover::before{transform:scaleX(1);}
 
 /* ══ CALENDAR ══ */
@@ -236,17 +332,38 @@ html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(
 
 <!-- INTRO -->
 <div id="page-intro" class="page active">
-  <div class="intro-ornament">A Gift of Love · For the One Who Loves Too Well</div>
-  <h1 class="intro-title">Love<br><span>Her Holy</span></h1>
-  <div class="intro-rule"></div>
-  <p class="intro-sub">Neil's 10-Day Devotional Journal on Loving as Christ Loved the Church</p>
-  <div class="intro-dedication">
-    <p>This journal is for you — the one whose heart is too big for the world's small definitions of love. You have loved with everything you have, and the world has not always known what to do with that.</p><br>
-    <p>But God does. <strong>He made you this way on purpose.</strong></p><br>
-    <p>These ten days are not about becoming less — they are about becoming <strong>more rightly ordered</strong>. About learning to love the way God loves. About becoming the man worthy of the woman you are praying for. About <strong>loving her holy</strong>, before you even meet her.</p><br>
-    <p style="font-style:italic;color:var(--rose)">With love, your sister in faith — and your biggest fan. 🌹</p>
+  <div class="intro-track" id="introTrack">
+
+    <!-- SCREEN 1: Title only -->
+    <div class="intro-screen">
+      <div class="intro-ornament">A Gift of Love · For the One Who Loves Too Well</div>
+      <h1 class="intro-title">Love<br><span>Her Holy</span></h1>
+      <div class="intro-rule"></div>
+      <div class="intro-tagline">Neil's 10-Day Devotional Journal</div>
+      <!-- progress dots -->
+      <div class="intro-dots">
+        <div class="intro-dot active" id="dot0"></div>
+        <div class="intro-dot" id="dot1"></div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: Bio + button -->
+    <div class="intro-screen">
+      <div class="intro-dedication">
+        <p>This journal is for you — the one whose heart is too big for the world's small definitions of love. You have loved with everything you have, and the world has not always known what to do with that.</p>
+        <p>But God does. <strong>He made you this way on purpose.</strong></p>
+        <p>These ten days are not about becoming less — they are about becoming <strong>more rightly ordered</strong>. About learning to love the way God loves. About becoming the man worthy of the woman you are praying for. About <strong>loving her holy</strong>, before you even meet her.</p>
+        <p>With love, your sister in faith — and your biggest fan. 🌹</p>
+      </div>
+      <button class="btn-begin" onclick="showCalendar()">Open Your Journal →</button>
+      <!-- progress dots -->
+      <div class="intro-dots">
+        <div class="intro-dot" id="dot0b"></div>
+        <div class="intro-dot active" id="dot1b"></div>
+      </div>
+    </div>
+
   </div>
-  <button class="btn-begin" onclick="showCalendar()">Open Your Journal →</button>
 </div>
 
 <!-- CALENDAR -->
@@ -604,52 +721,94 @@ function closeDevotional(){document.getElementById('devotional-overlay').classLi
 function openScripture(si){const s=scriptures[si%scriptures.length];document.getElementById('scriptureRef').textContent=s.ref;document.getElementById('scriptureText').textContent=`"${s.text}"`;document.getElementById('scripture-overlay').classList.add('show');}
 function closeScripture(){document.getElementById('scripture-overlay').classList.remove('show');}
 
+/* ── INIT ── */
 document.getElementById('page-intro').classList.add('active');
 document.body.style.overflow='hidden';
 
-/* ── HIDDEN AUTOPLAY MUSIC via YouTube IFrame API ── */
-// Load YouTube IFrame API script
+/* ── 5-SECOND INTRO TRANSITION ──
+   Screen 1 (title) shows for 5s, then slides to Screen 2 (bio + button).
+   Dots update to reflect current screen.                               */
+setTimeout(function(){
+  const track=document.getElementById('introTrack');
+  if(track){
+    track.classList.add('slide');
+    // swap dot states
+    document.getElementById('dot0').classList.remove('active');
+    document.getElementById('dot1').classList.add('active');
+    document.getElementById('dot0b').classList.remove('active');
+    document.getElementById('dot1b').classList.add('active');
+  }
+}, 5000);
+
+/* ── MUSIC AUTOPLAY — YouTube IFrame API ──
+   Browsers block audio without a user gesture. Strategy:
+   1. Load the YT API immediately so the player is ready.
+   2. On the FIRST user interaction anywhere on the page (click/touch/key),
+      unmute and play. This is the most reliable cross-browser approach.
+   3. Also attempt immediate autoplay — it works on mobile Safari after
+      page load and on most desktop browsers.                            */
+let ytPlayer = null;
+let ytReady  = false;
+let playRequested = false;
+
+// Inject YouTube IFrame API
 (function(){
-  const tag=document.createElement('script');
-  tag.src='https://www.youtube.com/iframe_api';
-  document.head.appendChild(tag);
+  const s=document.createElement('script');
+  s.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(s);
 })();
 
-let ytPlayer=null;
-
-// Called automatically by YouTube API when ready
 function onYouTubeIframeAPIReady(){
-  ytPlayer=new YT.Player('yt-player',{
-    height:'1',
-    width:'1',
-    videoId:'R9LSain-Bk0',   // extracted from your link
+  ytPlayer = new YT.Player('yt-player',{
+    height:'1', width:'1',
+    videoId:'R9LSain-Bk0',
     playerVars:{
-      autoplay:1,       // start immediately
-      loop:1,           // loop the video
-      playlist:'R9LSain-Bk0', // required for loop to work
-      controls:0,       // no controls
-      disablekb:1,      // disable keyboard
-      fs:0,             // no fullscreen
+      autoplay:1,
+      loop:1,
+      playlist:'R9LSain-Bk0',
+      controls:0,
+      disablekb:1,
+      fs:0,
       modestbranding:1,
       rel:0,
-      iv_load_policy:3, // no annotations
+      iv_load_policy:3,
       playsinline:1,
-      mute:0
+      mute:1          // start muted (required for autoplay without gesture)
     },
     events:{
       onReady:function(e){
-        e.target.setVolume(22); // medium-low: 22 out of 100
-        e.target.playVideo();
+        ytReady=true;
+        e.target.playVideo();          // plays muted immediately
+        // Try to unmute right away (works on many browsers)
+        tryUnmute();
       },
       onStateChange:function(e){
-        // If video ends for any reason, restart
-        if(e.data===YT.PlayerState.ENDED){
-          e.target.playVideo();
-        }
+        if(e.data===YT.PlayerState.ENDED) e.target.playVideo();
       }
     }
   });
 }
+
+function tryUnmute(){
+  if(!ytPlayer||!ytReady) return;
+  try{
+    ytPlayer.unMute();
+    ytPlayer.setVolume(22);  // medium-low: 22 / 100
+  }catch(e){}
+}
+
+/* On FIRST user interaction, unmute.
+   This handles browsers that block audio until a gesture.             */
+function onFirstGesture(){
+  tryUnmute();
+  // Remove listeners after first fire
+  document.removeEventListener('click',   onFirstGesture);
+  document.removeEventListener('touchend',onFirstGesture);
+  document.removeEventListener('keydown', onFirstGesture);
+}
+document.addEventListener('click',    onFirstGesture, {once:true});
+document.addEventListener('touchend', onFirstGesture, {once:true});
+document.addEventListener('keydown',  onFirstGesture, {once:true});
 </script>
 </body>
 </html>
