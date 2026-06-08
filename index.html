@@ -17,8 +17,8 @@
 */
 @font-face {
   font-family: 'BristleRadiant';
-  src: url('bristle-radiant.woff2') format('woff2'),
-       url('bristle-radiant.ttf') format('truetype');
+  src: url('Bristle-Radiant-DEMO-VERSION.ttf') format('truetype'),
+       url('bristle-radiant.woff2') format('woff2');
   font-weight: normal; font-style: normal;
 }
 @font-face {
@@ -29,11 +29,11 @@
 }
 
 :root {
-  --deep:    #4f0b0b;
+  --deep:    #340904;
   --white:   #ffffff;
   --rose:    #e26b89;
   --blush:   #f59dab;
-  --darkest: #380200;
+  --darkest: #1e0402;
   --crimson: #a90a26;
   --pink-card: #f5c0cc;
   --white-card: #fff8f8;
@@ -43,7 +43,7 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-body{font-family:var(--body-font);background:var(--deep);color:var(--white);min-height:100vh;overflow-x:hidden;}
+html,body{height:100%;font-family:var(--body-font);background:#340904;color:var(--white);overflow-x:hidden;}
 
 /* GINGHAM — matches uploaded image: pink base, dark red grid */
 .gingham-bg{
@@ -53,27 +53,42 @@ body{font-family:var(--body-font);background:var(--deep);color:var(--white);min-
     repeating-linear-gradient(90deg,transparent 0px,transparent 17px,rgba(139,10,28,0.58) 17px,rgba(139,10,28,0.58) 34px);
 }
 
-.page{display:none;min-height:100vh;}
+.page{display:none;}
 .page.active{display:flex;flex-direction:column;align-items:center;justify-content:center;}
 
-/* ══ INTRO ══ */
-#page-intro{background:var(--deep);position:relative;padding:48px 24px;text-align:center;}
-#page-intro::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(162,10,38,.35) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(226,107,137,.18) 0%,transparent 60%);pointer-events:none;}
+/* ══ INTRO — fully viewport locked, no scroll ══ */
+#page-intro{
+  background:#340904;
+  position:fixed;inset:0;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px 24px;
+  overflow:hidden;
+  z-index:1;
+}
+#page-intro.active{display:flex;}
+#page-intro::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(162,10,38,.35) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(226,107,137,.18) 0%,transparent 60%);pointer-events:none;}
 
-.intro-ornament{font-family:var(--body-font);font-size:12px;letter-spacing:6px;text-transform:uppercase;color:var(--blush);opacity:.8;margin-bottom:16px;animation:fadeUp 1s ease both;}
-.intro-title{font-family:var(--heading-font);font-size:clamp(60px,12vw,112px);font-weight:normal;line-height:.9;color:var(--white);text-align:center;width:100%;animation:fadeUp 1s .2s ease both;}
+.intro-ornament{font-family:var(--body-font);font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--blush);opacity:.8;margin-bottom:10px;animation:fadeUp 1s ease both;}
+.intro-title{font-family:var(--heading-font);font-size:clamp(48px,10vw,88px);font-weight:normal;line-height:.88;color:var(--white);text-align:center;width:100%;animation:fadeUp 1s .2s ease both;}
 .intro-title span{display:block;color:var(--rose);}
-.intro-rule{width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--rose),transparent);margin:28px auto;animation:fadeUp 1s .4s ease both;}
-.intro-sub{font-family:var(--body-font);font-size:clamp(13px,2vw,17px);font-style:italic;color:var(--blush);max-width:480px;line-height:1.75;animation:fadeUp 1s .5s ease both;text-align:center;}
-.intro-dedication{margin-top:28px;max-width:520px;font-family:var(--body-font);font-size:14px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.9;animation:fadeUp 1s .6s ease both;text-align:center;}
+.intro-rule{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--rose),transparent);margin:14px auto;animation:fadeUp 1s .4s ease both;}
+.intro-sub{font-family:var(--body-font);font-size:clamp(12px,1.6vw,15px);font-style:italic;color:var(--blush);max-width:440px;line-height:1.55;animation:fadeUp 1s .5s ease both;text-align:center;}
+.intro-dedication{margin-top:14px;max-width:500px;font-family:var(--body-font);font-size:clamp(11px,1.4vw,13px);font-weight:300;color:rgba(255,255,255,.6);line-height:1.7;animation:fadeUp 1s .6s ease both;text-align:center;}
 .intro-dedication strong{color:var(--blush);font-weight:600;}
+.intro-dedication br{display:none;}
+.intro-dedication p{display:inline;}
+.intro-dedication p+p::before{content:' ';}
 
-.btn-begin{margin-top:44px;padding:15px 52px;background:transparent;border:1px solid var(--rose);color:var(--white);font-family:var(--body-font);font-size:14px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:all .4s ease;animation:fadeUp 1s .8s ease both;}
+.btn-begin{margin-top:18px;padding:12px 44px;background:transparent;border:1px solid var(--rose);color:var(--white);font-family:var(--body-font);font-size:13px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:all .4s ease;animation:fadeUp 1s .8s ease both;flex-shrink:0;}
 .btn-begin::before{content:'';position:absolute;inset:0;background:var(--rose);transform:scaleX(0);transform-origin:left;transition:transform .4s ease;z-index:-1;}
 .btn-begin:hover::before{transform:scaleX(1);}
 
 /* ══ CALENDAR ══ */
-#page-calendar{background:var(--deep);padding:36px 16px 60px;min-height:100vh;display:block;}
+#page-calendar{background:#340904;padding:36px 16px 60px;min-height:100vh;display:block;}
 .calendar-header{text-align:center;padding:28px 0 24px;}
 .calendar-title{font-family:var(--heading-font);font-size:clamp(40px,7vw,68px);color:var(--white);text-align:center;}
 .calendar-title span{color:var(--rose);}
@@ -209,6 +224,8 @@ body{font-family:var(--body-font);background:var(--deep);color:var(--white);min-
 .back-btn{background:none;border:none;color:var(--blush);font-family:var(--body-font);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:block;text-align:center;margin:0 auto 18px;opacity:.65;transition:opacity .2s;}
 .back-btn:hover{opacity:1;}
 
+/* music is fully hidden — no visible UI */
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes calReveal{from{opacity:0;transform:scale(.75) rotate(-3deg);}to{opacity:1;transform:scale(1) rotate(0deg);}}
@@ -266,6 +283,11 @@ body{font-family:var(--body-font);background:var(--deep);color:var(--white);min-
     </div>
     <div class="dev-body" id="devBody"></div>
   </div>
+</div>
+
+<!-- HIDDEN AUTOPLAY MUSIC — YouTube IFrame API -->
+<div id="yt-holder" style="position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;overflow:hidden;pointer-events:none;opacity:0;" aria-hidden="true">
+  <div id="yt-player"></div>
 </div>
 
 <!-- SEND MODAL -->
@@ -456,8 +478,17 @@ function buildCalendar(){
   });
 }
 
-function showIntro(){document.getElementById('page-intro').classList.add('active');document.getElementById('page-calendar').style.display='none';}
-function showCalendar(){document.getElementById('page-intro').classList.remove('active');document.getElementById('page-calendar').style.display='block';buildCalendar();}
+function showIntro(){
+  document.getElementById('page-intro').classList.add('active');
+  document.getElementById('page-calendar').style.display='none';
+  document.body.style.overflow='hidden';
+}
+function showCalendar(){
+  document.getElementById('page-intro').classList.remove('active');
+  document.getElementById('page-calendar').style.display='block';
+  document.body.style.overflow='auto';
+  buildCalendar();
+}
 
 function showPreloader(num,cb){
   const ph=preloaderPhrases[Math.floor(Math.random()*preloaderPhrases.length)];
@@ -574,6 +605,51 @@ function openScripture(si){const s=scriptures[si%scriptures.length];document.get
 function closeScripture(){document.getElementById('scripture-overlay').classList.remove('show');}
 
 document.getElementById('page-intro').classList.add('active');
+document.body.style.overflow='hidden';
+
+/* ── HIDDEN AUTOPLAY MUSIC via YouTube IFrame API ── */
+// Load YouTube IFrame API script
+(function(){
+  const tag=document.createElement('script');
+  tag.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+})();
+
+let ytPlayer=null;
+
+// Called automatically by YouTube API when ready
+function onYouTubeIframeAPIReady(){
+  ytPlayer=new YT.Player('yt-player',{
+    height:'1',
+    width:'1',
+    videoId:'R9LSain-Bk0',   // extracted from your link
+    playerVars:{
+      autoplay:1,       // start immediately
+      loop:1,           // loop the video
+      playlist:'R9LSain-Bk0', // required for loop to work
+      controls:0,       // no controls
+      disablekb:1,      // disable keyboard
+      fs:0,             // no fullscreen
+      modestbranding:1,
+      rel:0,
+      iv_load_policy:3, // no annotations
+      playsinline:1,
+      mute:0
+    },
+    events:{
+      onReady:function(e){
+        e.target.setVolume(22); // medium-low: 22 out of 100
+        e.target.playVideo();
+      },
+      onStateChange:function(e){
+        // If video ends for any reason, restart
+        if(e.data===YT.PlayerState.ENDED){
+          e.target.playVideo();
+        }
+      }
+    }
+  });
+}
 </script>
 </body>
 </html>
