@@ -24,13 +24,9 @@
 .dev-statement::before,.dev-statement::after,
 .dev-header-title::before,.dev-header-title::after,
 h1::before,h1::after,h2::before,h2::after{
-  content:none !important;
-  display:none !important;
+  content:none !important; display:none !important;
 }
-.intro-title,.calendar-title,.dev-statement,.dev-header-title,
-h1,h2{overflow:hidden;position:relative;}
-.intro-title>span[aria-hidden],h1>span[aria-hidden],
-h2>span[aria-hidden]{display:none!important;}
+.intro-title,.calendar-title,.dev-statement,.dev-header-title,h1,h2{overflow:hidden;position:relative;}
 *{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 
 :root {
@@ -47,9 +43,9 @@ h2>span[aria-hidden]{display:none!important;}
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-
 html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(--white);overflow-x:hidden;}
 
+/* ── GINGHAM ── */
 .gingham-bg{
   background-color:#f5b0c0;
   background-image:
@@ -57,39 +53,47 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
     repeating-linear-gradient(90deg,transparent 0px,transparent 17px,rgba(139,10,28,0.58) 17px,rgba(139,10,28,0.58) 34px);
 }
 
+/* ── PAGES ── */
 .page{display:none;}
 .page.active{display:flex;flex-direction:column;align-items:center;justify-content:center;}
 
+/* ── INTRO ── */
 #page-intro{
   background:#5c1d1e;
   position:fixed;inset:0;
-  display:none;
-  overflow:hidden;
-  z-index:1;
+  display:none; overflow:hidden; z-index:1;
 }
 #page-intro.active{display:block;}
-#page-intro::before{ content:none; }
+
+/* Subtle animated stars background */
+#page-intro::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle, rgba(226,107,137,0.15) 1px, transparent 1px),
+    radial-gradient(circle, rgba(245,157,171,0.1) 1px, transparent 1px);
+  background-size: 60px 60px, 40px 40px;
+  background-position: 0 0, 30px 20px;
+  animation: starDrift 30s linear infinite;
+  pointer-events:none;
+}
+@keyframes starDrift{
+  from{background-position: 0 0, 30px 20px;}
+  to{background-position: 60px 60px, 90px 80px;}
+}
 
 .intro-track{
-  display:flex;
-  width:200%;
-  height:100%;
+  display:flex; width:200%; height:100%;
   transition:transform .9s cubic-bezier(.77,0,.18,1);
 }
 .intro-track.slide{transform:translateX(-50%);}
 
 .intro-screen{
-  width:50%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:28px 32px;
-  position:relative;
-  z-index:1;
-  flex-shrink:0;
+  width:50%; height:100%;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; padding:28px 32px;
+  position:relative; z-index:1; flex-shrink:0;
 }
 
 .intro-ornament{
@@ -132,6 +136,23 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
 }
 .intro-dot.active{background:var(--rose);}
 
+/* Rotating quote on intro screen 1 */
+.intro-quote-band{
+  position:absolute;bottom:60px;left:0;right:0;
+  text-align:center;padding:0 24px;
+  pointer-events:none;
+}
+.intro-quote{
+  font-family:var(--heading-font);
+  font-size:clamp(13px,2vw,17px);
+  font-style:italic;color:rgba(245,157,171,.55);
+  line-height:1.6;
+  opacity:0;
+  transition:opacity .7s ease;
+  max-width:500px;margin:0 auto;
+}
+.intro-quote.visible{opacity:1;}
+
 .intro-dedication{
   max-width:520px;
   font-family:var(--body-font);
@@ -159,11 +180,53 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
 }
 .btn-begin:hover::before{transform:scaleX(1);}
 
+/* ── CALENDAR ── */
 #page-calendar{background:#5c1d1e;padding:36px 16px 80px;min-height:100vh;display:block;}
 .calendar-header{text-align:center;padding:28px 0 24px;}
 .calendar-title{font-family:var(--heading-font);font-size:clamp(40px,7vw,68px);color:var(--white);text-align:center;}
 .calendar-title span{color:var(--rose);}
 .calendar-sub{font-family:var(--body-font);font-size:12px;color:var(--blush);opacity:.75;margin-top:10px;letter-spacing:3px;text-transform:uppercase;}
+
+/* ── JOURNEY STATS CARD ── */
+.journey-card{
+  max-width:900px;margin:0 auto 24px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(226,107,137,.25);
+  border-radius:8px;
+  padding:18px 24px;
+  display:flex;align-items:center;gap:20px;
+  flex-wrap:wrap;
+}
+.journey-stat{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  min-width:70px;
+}
+.journey-stat-num{
+  font-family:var(--heading-font);font-size:32px;color:var(--rose);line-height:1;
+}
+.journey-stat-label{
+  font-family:var(--body-font);font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(245,157,171,.65);
+}
+.journey-divider{width:1px;height:40px;background:rgba(226,107,137,.2);flex-shrink:0;}
+.journey-progress-wrap{flex:1;min-width:160px;}
+.journey-progress-label{
+  font-family:var(--body-font);font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(245,157,171,.6);
+  margin-bottom:8px;
+}
+.journey-bar{
+  width:100%;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;
+}
+.journey-bar-fill{
+  height:100%;background:linear-gradient(90deg,var(--rose),var(--blush));
+  border-radius:3px;
+  transition:width .8s cubic-bezier(.34,1.56,.64,1);
+}
+.journey-message{
+  font-family:var(--body-font);font-size:12px;font-style:italic;
+  color:rgba(245,157,171,.7);margin-top:6px;
+}
 
 .calendar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:900px;margin:0 auto;padding:0 8px;}
 
@@ -175,7 +238,22 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
 
 .cal-day .day-num{font-family:var(--heading-font);font-size:clamp(30px,5.5vw,52px);font-weight:normal;color:var(--deep);line-height:1;}
 .cal-day .day-label{font-family:var(--body-font);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--crimson);opacity:.8;}
-.cal-day.done::before{content:'✓';position:absolute;top:8px;right:10px;font-size:13px;color:var(--crimson);font-family:var(--body-font);font-weight:600;}
+
+/* Done state — green glow ring + checkmark */
+.cal-day.done{
+  border-color:rgba(15,110,86,.45);
+  box-shadow:0 0 0 2px rgba(15,110,86,.2);
+}
+.cal-day.done::after{
+  content:'✓';
+  position:absolute;top:8px;right:10px;
+  font-size:13px;color:#0f6e56;
+  font-family:var(--body-font);font-weight:600;
+  background:rgba(15,110,86,.1);
+  width:22px;height:22px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+}
 
 .cal-heart{
   background-color:#f5b0c0;
@@ -187,12 +265,21 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
   text-shadow:0 1px 3px rgba(255,255,255,.5);
 }
 
+/* ── PRELOADER ── */
 #preloader{display:none;position:fixed;inset:0;background:#5c1d1e;z-index:200;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;}
 #preloader.show{display:flex;}
-.preloader-ring{width:60px;height:60px;border:2px solid rgba(226,107,137,.2);border-top-color:var(--rose);border-radius:50%;animation:spin .9s linear infinite;margin-bottom:28px;}
+.preloader-ring{
+  width:60px;height:60px;
+  border:2px solid rgba(226,107,137,.2);
+  border-top-color:var(--rose);
+  border-radius:50%;
+  animation:spin .9s linear infinite;
+  margin-bottom:28px;
+}
 .preloader-phrase{font-family:var(--heading-font);font-size:clamp(22px,5vw,38px);color:var(--white);max-width:340px;line-height:1.4;}
 .preloader-phrase span{color:var(--rose);}
 
+/* ── SCRIPTURE ── */
 #scripture-overlay{display:none;position:fixed;inset:0;background:rgba(92,29,30,.96);z-index:150;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);}
 #scripture-overlay.show{display:flex;}
 .scripture-card{background:#5c1d1e;border:1px solid rgba(226,107,137,.35);max-width:500px;width:100%;padding:52px 40px;text-align:center;}
@@ -201,7 +288,8 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
 .scripture-close{margin-top:32px;background:none;border:1px solid rgba(226,107,137,.4);color:var(--blush);padding:10px 28px;font-family:var(--body-font);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;}
 .scripture-close:hover{background:var(--rose);color:var(--white);border-color:var(--rose);}
 
-#devotional-overlay{display:none;position:fixed;inset:0;z-index:160;overflow-y:auto;}
+/* ── DEVOTIONAL OVERLAY ── */
+#devotional-overlay{display:none;position:fixed;inset:0;z-index:160;overflow-y:auto;scroll-behavior:smooth;}
 #devotional-overlay.show{display:block;}
 .devotional-inner{
   min-height:100vh;
@@ -211,15 +299,56 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
     repeating-linear-gradient(90deg,transparent 0px,transparent 26px,rgba(139,10,28,.48) 26px,rgba(139,10,28,.48) 52px);
 }
 
-.dev-header{background:#5c1d1e;padding:20px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;border-bottom:2px solid var(--rose);}
+/* Prayer mode */
+#devotional-overlay.prayer-mode .dev-card:not(.prayer-card){opacity:0.06;pointer-events:none;}
+#devotional-overlay.prayer-mode .dev-card.prayer-card{opacity:1;pointer-events:auto;}
+#devotional-overlay.prayer-mode .devotional-inner{
+  background-color:#3d0014;
+  background-image:none;
+}
+
+.dev-header{
+  background:#5c1d1e;
+  padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:10;
+  border-bottom:2px solid var(--rose);
+  gap:10px;flex-wrap:wrap;
+}
+.dev-header-left{display:flex;align-items:center;gap:14px;}
 .dev-header-title{font-family:var(--heading-font);font-size:22px;color:var(--white);}
 .dev-header-title span{color:var(--rose);}
-.dev-close{background:none;border:1px solid rgba(255,255,255,.3);color:var(--white);padding:8px 18px;font-family:var(--body-font);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;}
+.dev-header-actions{display:flex;align-items:center;gap:8px;}
+.dev-close,.btn-prayer-mode,.btn-scroll-top{
+  background:none;border:1px solid rgba(255,255,255,.3);color:var(--white);
+  padding:7px 16px;font-family:var(--body-font);font-size:11px;
+  letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;
+  white-space:nowrap;
+}
 .dev-close:hover{background:var(--rose);border-color:var(--rose);}
+.btn-prayer-mode:hover{background:rgba(245,157,171,.15);border-color:var(--blush);}
+.btn-prayer-mode.active{background:rgba(245,157,171,.2);border-color:var(--blush);color:var(--blush);}
+.btn-scroll-top{padding:7px 12px;opacity:.6;}
+.btn-scroll-top:hover{opacity:1;background:rgba(255,255,255,.08);}
+
+/* Day progress bar inside devotional */
+.dev-day-progress{
+  height:3px;background:#5c1d1e;
+  position:sticky;top:52px;z-index:9;
+}
+.dev-day-progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--rose),var(--blush));
+  transition:width .3s ease;
+}
 
 .dev-body{max-width:720px;margin:0 auto;padding:36px 16px 100px;}
 
-.dev-card{background:#ffffff;border-radius:4px;padding:36px 32px;margin-bottom:18px;box-shadow:0 2px 24px rgba(0,0,0,.18);}
+.dev-card{
+  background:#ffffff;border-radius:4px;
+  padding:36px 32px;margin-bottom:18px;
+  box-shadow:0 2px 24px rgba(0,0,0,.18);
+  transition:opacity .5s ease;
+}
 
 .dev-day-label{font-family:var(--body-font);font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--crimson);margin-bottom:8px;}
 .dev-statement{font-family:var(--heading-font);font-size:clamp(26px,5vw,42px);font-weight:normal;line-height:1.15;color:var(--deep);margin-bottom:18px;}
@@ -237,12 +366,23 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
 .dev-prose strong{color:var(--crimson);font-weight:600;}
 .dev-prose em{font-style:italic;color:#5c0018;}
 
-.quiz-item{border:1px solid rgba(226,107,137,.25);background:#fff;padding:22px;margin-bottom:18px;}
+/* ── QUIZ ── */
+.quiz-item{border:1px solid rgba(226,107,137,.25);background:#fff;padding:22px;margin-bottom:18px;transition:border-color .3s;}
 .quiz-num{font-family:var(--body-font);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--rose);margin-bottom:8px;}
 .quiz-q{font-family:var(--body-font);font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:14px;line-height:1.6;}
 .quiz-options{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
-.quiz-option{padding:10px 14px;border:1px solid rgba(226,107,137,.25);background:#fff9fb;cursor:pointer;font-family:var(--body-font);font-size:13px;color:#1a1a1a;text-align:left;transition:all .2s;display:flex;gap:10px;align-items:flex-start;}
-.quiz-option:hover{background:rgba(226,107,137,.1);border-color:var(--rose);}
+.quiz-option{
+  padding:10px 14px;border:1px solid rgba(226,107,137,.25);background:#fff9fb;
+  cursor:pointer;font-family:var(--body-font);font-size:13px;color:#1a1a1a;
+  text-align:left;transition:all .2s;display:flex;gap:10px;align-items:flex-start;
+  position:relative;overflow:hidden;
+}
+.quiz-option::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:0;
+  background:rgba(226,107,137,.07);transition:width .3s ease;
+}
+.quiz-option:hover::before{width:100%;}
+.quiz-option:hover{border-color:var(--rose);}
 .quiz-option.correct{background:rgba(15,110,86,.08);border-color:#0f6e56;color:#0a4a38;}
 .quiz-option.wrong{background:rgba(162,10,38,.07);border-color:var(--crimson);color:var(--crimson);}
 .quiz-option.disabled{pointer-events:none;}
@@ -250,10 +390,21 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
 .quiz-option.correct .quiz-letter{color:#0f6e56;}
 .quiz-option.wrong .quiz-letter{color:var(--crimson);}
 .quiz-feedback{padding:10px 14px;font-family:var(--body-font);font-size:13px;font-style:italic;display:none;border-left:3px solid;margin-bottom:12px;}
-.quiz-feedback.show{display:block;}
+.quiz-feedback.show{display:block;animation:slideDown .3s ease;}
 .quiz-feedback.correct-fb{border-color:#0f6e56;color:#0a4a38;background:rgba(15,110,86,.05);}
 .quiz-feedback.wrong-fb{border-color:var(--crimson);color:var(--crimson);background:rgba(162,10,38,.04);}
 .quiz-response-label{font-family:var(--body-font);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:4px;margin-top:10px;}
+
+/* Quiz score chip */
+.quiz-score-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 14px;
+  border-radius:20px;
+  font-family:var(--body-font);font-size:11px;letter-spacing:1px;
+  margin-top:14px;
+}
+.quiz-score-chip.perfect{background:rgba(15,110,86,.1);color:#0f6e56;border:1px solid rgba(15,110,86,.3);}
+.quiz-score-chip.good{background:rgba(226,107,137,.1);color:var(--crimson);border:1px solid rgba(226,107,137,.3);}
 
 .quiz-response-area,
 .reflection-area,
@@ -269,82 +420,167 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
   display:block;
   background-color:#ffffff;
   background-image:repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 27px,
-    rgba(226,107,137,.25) 27px,
-    rgba(226,107,137,.25) 28px
+    to bottom,transparent,transparent 27px,
+    rgba(226,107,137,.25) 27px,rgba(226,107,137,.25) 28px
   );
   background-position:0 8px;
   background-attachment:local;
+  transition:border-color .2s,box-shadow .2s;
+}
+.quiz-response-area:focus,.reflection-area:focus,.notes-area:focus{
+  outline:none;
+  border-color:var(--rose);
+  box-shadow:0 0 0 3px rgba(226,107,137,.12);
 }
 .quiz-response-area{min-height:84px;}
 .reflection-area{min-height:112px;}
-.notes-area{min-height:140px;background-color:#fff;}
-.quiz-response-area:focus,.reflection-area:focus,.notes-area:focus{outline:2px solid var(--rose);}
+.notes-area{min-height:140px;}
 
 .reflection-item{margin-bottom:16px;border:1px solid rgba(226,107,137,.25);background:#fff;padding:18px;}
 .reflection-q{font-family:var(--body-font);font-size:15px;font-style:italic;color:#1a1a1a;margin-bottom:12px;line-height:1.65;padding-left:13px;border-left:2px solid var(--rose);}
 
-.notes-actions{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;align-items:center;}
-.btn-complete{padding:14px 32px;background:#5c0018;color:var(--white);border:none;font-family:var(--body-font);font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .3s;}
-.btn-complete:hover{background:var(--crimson);}
-.btn-pdf{padding:14px 32px;background:var(--rose);color:var(--white);border:none;font-family:var(--body-font);font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .3s;}
-.btn-pdf:hover{background:var(--crimson);}
-.save-confirm{font-family:var(--body-font);font-size:13px;font-style:italic;color:#0f6e56;display:none;}
-.save-confirm.show{display:block;}
+/* Char count helper */
+.char-count{
+  font-family:var(--body-font);font-size:11px;color:rgba(100,40,50,.4);
+  text-align:right;margin-top:3px;
+  transition:color .2s;
+}
+.char-count.active{color:var(--rose);}
 
-#send-modal{display:none;position:fixed;inset:0;background:rgba(92,29,30,.97);z-index:300;align-items:center;justify-content:center;text-align:center;padding:24px;flex-direction:column;}
+.notes-actions{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;align-items:center;}
+.btn-complete{
+  padding:14px 32px;background:#5c0018;color:var(--white);border:none;
+  font-family:var(--body-font);font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
+}
+.btn-complete::after{
+  content:'';position:absolute;inset:0;background:rgba(255,255,255,.08);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s;
+}
+.btn-complete:hover{background:var(--crimson);}
+.btn-complete:active{transform:scale(.98);}
+.btn-pdf{
+  padding:14px 32px;background:var(--rose);color:var(--white);border:none;
+  font-family:var(--body-font);font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;
+}
+.btn-pdf:hover{background:var(--crimson);}
+.btn-pdf:active{transform:scale(.98);}
+.save-confirm{font-family:var(--body-font);font-size:13px;font-style:italic;color:#0f6e56;display:none;}
+.save-confirm.show{display:block;animation:fadeUp .4s ease;}
+
+/* ── CONFETTI PARTICLES ── */
+.confetti-particle{
+  position:fixed;width:8px;height:8px;
+  border-radius:2px;
+  pointer-events:none;z-index:9999;
+  animation:confettiFall 1.8s ease forwards;
+}
+@keyframes confettiFall{
+  0%{opacity:1;transform:translateY(0) rotate(0deg);}
+  100%{opacity:0;transform:translateY(300px) rotate(720deg);}
+}
+
+/* ── COMPLETION BADGE ── */
+.day-complete-banner{
+  background:linear-gradient(135deg,#0f6e56,#1a9e75);
+  padding:18px 24px;border-radius:4px;
+  text-align:center;margin-bottom:18px;
+  display:none;animation:fadeUp .5s ease;
+}
+.day-complete-banner.show{display:block;}
+.day-complete-banner h3{
+  font-family:var(--heading-font);font-size:22px;color:#fff;margin-bottom:4px;
+}
+.day-complete-banner p{font-family:var(--body-font);font-size:13px;color:rgba(255,255,255,.8);}
+
+/* Day 10 celebration */
+.day10-celebration{
+  background:linear-gradient(135deg,#5c0018,#a90a26);
+  border:2px solid var(--rose);
+  padding:28px 24px;border-radius:4px;
+  text-align:center;margin-bottom:18px;
+  display:none;animation:fadeUp .5s ease;
+}
+.day10-celebration.show{display:block;}
+.day10-celebration h3{font-family:var(--heading-font);font-size:28px;color:var(--rose);margin-bottom:8px;}
+.day10-celebration p{font-family:var(--body-font);font-size:14px;color:rgba(255,255,255,.85);line-height:1.75;}
+
+/* ── SEND MODAL ── */
+#send-modal{
+  display:none;position:fixed;inset:0;
+  background:rgba(92,29,30,.97);z-index:300;
+  align-items:center;justify-content:center;
+  text-align:center;padding:24px;flex-direction:column;
+}
 #send-modal.show{display:flex;}
 .send-modal-inner{background:#7a2223;border:1px solid var(--rose);padding:44px 36px;max-width:480px;width:100%;}
 .send-modal-title{font-family:var(--heading-font);font-size:28px;color:var(--white);margin-bottom:14px;}
 .send-modal-body{font-family:var(--body-font);font-size:14px;color:rgba(255,255,255,.75);line-height:1.85;margin-bottom:28px;}
 .send-modal-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.btn-send-email{padding:12px 26px;background:var(--rose);color:var(--white);border:none;font-family:var(--body-font);font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:background .3s;}
+.btn-send-email{
+  padding:12px 26px;background:var(--rose);color:var(--white);border:none;
+  font-family:var(--body-font);font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;display:inline-block;transition:background .3s;
+}
 .btn-send-email:hover{background:var(--crimson);}
-.btn-send-cancel{padding:12px 26px;background:none;color:var(--blush);border:1px solid rgba(226,107,137,.4);font-family:var(--body-font);font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;}
+.btn-send-cancel{
+  padding:12px 26px;background:none;color:var(--blush);
+  border:1px solid rgba(226,107,137,.4);
+  font-family:var(--body-font);font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;
+}
 .btn-send-cancel:hover{background:rgba(226,107,137,.1);}
 
-.back-btn{background:none;border:none;color:var(--blush);font-family:var(--body-font);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:block;text-align:center;margin:0 auto 18px;opacity:.65;transition:opacity .2s;}
+.back-btn{
+  background:none;border:none;color:var(--blush);
+  font-family:var(--body-font);font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;display:block;text-align:center;margin:0 auto 18px;
+  opacity:.65;transition:opacity .2s;
+}
 .back-btn:hover{opacity:1;}
 
-#music-bar{
-  position:fixed;bottom:0;left:0;right:0;z-index:500;
-  background:#5c1d1e;
-  border-top:1px solid rgba(226,107,137,.35);
-  height:46px;
-  display:flex;align-items:center;
-  gap:8px;padding:0 16px;
-  box-shadow:0 -2px 18px rgba(0,0,0,.7);
-}
-.mb-note{font-size:14px;color:var(--rose);flex-shrink:0;}
-.mb-title{
-  font-family:var(--body-font);font-size:10px;
-  letter-spacing:1.5px;text-transform:uppercase;
-  color:rgba(245,157,171,.65);
-  flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.mb-btn{
-  background:none;
-  border:1px solid rgba(226,107,137,.4);
-  color:var(--rose);
-  width:30px;height:30px;border-radius:50%;
-  font-size:12px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:all .2s;padding:0;line-height:1;
-}
-.mb-btn:hover{background:var(--rose);color:#5c1d1e;border-color:var(--rose);}
-.mb-btn.paused-state{background:rgba(226,107,137,.15);}
-#mb-vol-label{
-  font-family:var(--body-font);font-size:10px;
-  color:rgba(245,157,171,.6);
-  min-width:28px;text-align:center;flex-shrink:0;
-}
-
+/* ── ANIMATIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes calReveal{from{opacity:0;transform:scale(.75) rotate(-3deg);}to{opacity:1;transform:scale(1) rotate(0deg);}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes heartbeat{0%,100%{transform:scale(1);}40%{transform:scale(1.2);}60%{transform:scale(1.1);}}
+
 .cal-cell:nth-child(1){animation-delay:.04s}.cal-cell:nth-child(2){animation-delay:.08s}.cal-cell:nth-child(3){animation-delay:.12s}.cal-cell:nth-child(4){animation-delay:.16s}.cal-cell:nth-child(5){animation-delay:.20s}.cal-cell:nth-child(6){animation-delay:.24s}.cal-cell:nth-child(7){animation-delay:.28s}.cal-cell:nth-child(8){animation-delay:.32s}.cal-cell:nth-child(9){animation-delay:.36s}.cal-cell:nth-child(10){animation-delay:.40s}.cal-cell:nth-child(11){animation-delay:.44s}.cal-cell:nth-child(12){animation-delay:.48s}.cal-cell:nth-child(13){animation-delay:.52s}.cal-cell:nth-child(14){animation-delay:.56s}.cal-cell:nth-child(15){animation-delay:.60s}.cal-cell:nth-child(16){animation-delay:.64s}
+
+/* Tooltip on day card */
+.cal-day .day-title-preview{
+  position:absolute;inset:0;
+  display:flex;align-items:flex-end;
+  padding:8px;
+  background:linear-gradient(to top,rgba(92,29,30,.85),transparent);
+  opacity:0;transition:opacity .3s;
+  pointer-events:none;
+}
+.cal-day:hover .day-title-preview{opacity:1;}
+.cal-day .day-title-preview span{
+  font-family:var(--body-font);font-size:9px;
+  letter-spacing:.5px;color:#fff;line-height:1.3;
+  text-align:center;width:100%;
+}
+
+/* Section jump nav */
+.section-nav{
+  display:flex;gap:8px;flex-wrap:wrap;
+  margin-bottom:18px;padding:14px;
+  background:rgba(92,29,30,.04);
+  border:1px dashed rgba(226,107,137,.2);
+  border-radius:4px;
+}
+.section-nav-btn{
+  background:none;border:1px solid rgba(169,10,38,.25);
+  color:var(--crimson);padding:5px 12px;
+  font-family:var(--body-font);font-size:10px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;border-radius:2px;
+}
+.section-nav-btn:hover{background:var(--crimson);color:#fff;border-color:var(--crimson);}
 </style>
 </head>
 <body>
@@ -353,24 +589,27 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
 <div id="page-intro" class="page active">
   <div class="intro-track" id="introTrack">
 
-    <!-- SCREEN 1: Title only -->
+    <!-- SCREEN 1 -->
     <div class="intro-screen">
       <div class="intro-ornament">A Gift of Love · For the One Who Loves Too Well</div>
       <h1 class="intro-title">Love <span class="rose">Her Holy</span></h1>
       <div class="intro-rule"></div>
       <div class="intro-tagline">Neil's 10-Day Devotional Journal</div>
+      <div class="intro-quote-band">
+        <div class="intro-quote" id="rotatingQuote"></div>
+      </div>
       <div class="intro-dots">
         <div class="intro-dot active" id="dot0"></div>
         <div class="intro-dot" id="dot1"></div>
       </div>
     </div>
 
-    <!-- SCREEN 2: Bio + button -->
+    <!-- SCREEN 2 -->
     <div class="intro-screen">
       <div class="intro-dedication">
         <p>You have loved with everything you have, and the world has not always known what to do with that.</p>
         <p>But God does. <strong>He made you this way on purpose.</strong></p>
-        <p>These ten days are not about becoming less, they are about becoming <strong>more rightly ordered</strong>. About learning to love the way God loves. About becoming the man worthy of the woman you are praying for. About <strong>loving her holy</strong>, before you even meet her.</p>
+        <p>These ten days are not about becoming less — they are about becoming <strong>more rightly ordered</strong>. About learning to love the way God loves. About becoming the man worthy of the woman you are praying for. About <strong>loving her holy</strong>, before you even meet her.</p>
         <p>With love, Lulu Pops (This Nickname will stick by force!)</p>
       </div>
       <button class="btn-begin" onclick="showCalendar()">Open Your Journal →</button>
@@ -389,6 +628,23 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
     <button class="back-btn" onclick="showIntro()">← Back</button>
     <h2 class="calendar-title">Love <span>Her Holy</span></h2>
     <p class="calendar-sub">Choose your day · Touch a heart for Scripture</p>
+  </div>
+  <div class="journey-card" id="journeyCard">
+    <div class="journey-stat">
+      <div class="journey-stat-num" id="jDone">0</div>
+      <div class="journey-stat-label">Completed</div>
+    </div>
+    <div class="journey-divider"></div>
+    <div class="journey-stat">
+      <div class="journey-stat-num" id="jLeft">10</div>
+      <div class="journey-stat-label">Remaining</div>
+    </div>
+    <div class="journey-divider"></div>
+    <div class="journey-progress-wrap">
+      <div class="journey-progress-label">Your Journey</div>
+      <div class="journey-bar"><div class="journey-bar-fill" id="jBar" style="width:0%"></div></div>
+      <div class="journey-message" id="jMsg">Every journey begins with a single day.</div>
+    </div>
   </div>
   <div class="calendar-grid" id="calGrid"></div>
 </div>
@@ -412,37 +668,18 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
 <div id="devotional-overlay">
   <div class="devotional-inner">
     <div class="dev-header">
-      <div class="dev-header-title">Love <span>Her Holy</span></div>
-      <button class="dev-close" onclick="closeDevotional()">✕ Close</button>
+      <div class="dev-header-left">
+        <div class="dev-header-title">Love <span>Her Holy</span></div>
+      </div>
+      <div class="dev-header-actions">
+        <button class="btn-prayer-mode" id="prayerModeBtn" onclick="togglePrayerMode()">🕊 Prayer Mode</button>
+        <button class="btn-scroll-top" onclick="scrollToTop()">↑ Top</button>
+        <button class="dev-close" onclick="closeDevotional()">✕ Close</button>
+      </div>
     </div>
+    <div class="dev-day-progress"><div class="dev-day-progress-fill" id="devProgressFill" style="width:0%"></div></div>
     <div class="dev-body" id="devBody"></div>
   </div>
-</div>
-
-<!-- MUSIC BAR -->
-<div id="music-bar">
-  <span class="mb-note">♪</span>
-  <span class="mb-title">Play This, its a nice song</span>
-  <button class="mb-btn" id="mb-play" title="Play / Pause" onclick="mbToggle()">▶</button>
-  <button class="mb-btn" id="mb-stop" title="Stop" onclick="mbStop()">■</button>
-  <button class="mb-btn" id="mb-vdown" title="Volume down" onclick="mbVol(-10)">−</button>
-  <span id="mb-vol-label">22%</span>
-  <button class="mb-btn" id="mb-vup" title="Volume up" onclick="mbVol(10)">+</button>
-</div>
-
-<!-- Hidden YouTube player target -->
-<div style="position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;overflow:hidden;opacity:0;pointer-events:none;" aria-hidden="true">
-  <div id="yt-player"></div>
-</div>
-
-<!-- Music notice — tap to unmute -->
-<div id="audio-notice"
-     onclick="doUnmute();this.style.display='none'"
-     style="display:none;position:fixed;bottom:58px;left:50%;transform:translateX(-50%);
-            background:#5c1d1e;border:2px solid #e26b89;color:#fff;
-            padding:12px 28px;font-family:sans-serif;font-size:14px;font-weight:bold;
-            border-radius:24px;cursor:pointer;z-index:600;white-space:nowrap;">
-  ♪ Tap here to start music
 </div>
 
 <!-- SEND MODAL -->
@@ -458,14 +695,47 @@ html,body{height:100%;font-family:var(--body-font);background:#5c1d1e;color:var(
 </div>
 
 <script>
-// ── CLEAR ALL SAVED DATA ON EVERY FRESH LOAD ──────────────────────────────
-// Wipes ticks, written answers, and notes so each session starts clean.
+// ── CLEAR DATA ON FRESH LOAD ──────────────────────────────────────────────
 (function clearStorage(){
-  const keys = Object.keys(localStorage).filter(k => k.startsWith('lhh_'));
-  keys.forEach(k => localStorage.removeItem(k));
+  Object.keys(localStorage).filter(k=>k.startsWith('lhh_')).forEach(k=>localStorage.removeItem(k));
 })();
 
 const RECIPIENT = 'cleolutandalizosefu@gmail.com';
+
+// Rotating quotes on intro screen
+const introQuotes = [
+  '"Set me as a seal upon your heart." — Song of Solomon 8:6',
+  '"He who finds a wife finds a good thing." — Proverbs 18:22',
+  '"Love is patient and kind." — 1 Corinthians 13:4',
+  '"He loved the church and gave himself up for her." — Ephesians 5:25',
+  '"From it flow the springs of life." — Proverbs 4:23',
+  '"I am sure that nothing can separate us from his love." — Romans 8:38'
+];
+let quoteIndex = 0;
+const qEl = document.getElementById('rotatingQuote');
+function rotateQuote(){
+  qEl.classList.remove('visible');
+  setTimeout(()=>{
+    quoteIndex = (quoteIndex+1) % introQuotes.length;
+    qEl.textContent = introQuotes[quoteIndex];
+    qEl.classList.add('visible');
+  }, 600);
+}
+qEl.textContent = introQuotes[0]; qEl.classList.add('visible');
+setInterval(rotateQuote, 4500);
+
+const journeyMessages = [
+  "Every journey begins with a single day.",
+  "One day down. The work has begun.",
+  "Two days of honest reflection — keep going.",
+  "You're building something real.",
+  "Halfway there. Stay the course, king.",
+  "The second half shapes the man.",
+  "Six days of growing. The change is real.",
+  "Three more days. Finish strong.",
+  "One more day. Make it count.",
+  "You did it. Every single day. 🎉"
+];
 
 const preloaderPhrases = [
   "Your <span>princess</span> awaits...",
@@ -488,10 +758,23 @@ const scriptures = [
   {ref:"Genesis 2:24",text:"Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh."}
 ];
 
+const dayTitles = [
+  "You Cannot Give What You Have Not Received",
+  "The Man She Needs Exists Before She Arrives",
+  "Intensity Is Not the Same as Intimacy",
+  "Purity Is a Gift, Not a Transaction",
+  "Heartbreak Is a Teacher, Not a Verdict",
+  "You Lead With Strength, Not Performance",
+  "She Is Not a Project — She Is a Person",
+  "How She Thinks Is a Reality to Honour",
+  "Guard Your Heart — And Hers",
+  "You Are Already Loved. Now Go Love Freely."
+];
+
 const days = [
 {num:1, statement:"You Cannot Give What You Have Not Received",
 passage:{ref:"1 John 4:19", text:"We love because he first loved us."},
-unpacking:`Before we talk about her, we have to talk about Him. The love you're trying to pour out has to come from somewhere. And right now, some of what you've been pouring has been coming from a place of <strong>need</strong> rather than <strong>fullness</strong>.\n\nWhen you love from emptiness, you love desperately. You hold too tight. You pour too fast. You read every silence as rejection and every warmth as a promise. That isn't a character flaw, it's what happens when a man is trying to love beyond his capacity. And your capacity only grows one way: by first letting God love you completely.\n\nJohn doesn't say "love God so he will love you back." He says we love <em>because</em> he first loved us. His love is the source. Not the reward. The moment you discover that you are already, completely, permanently loved by the God of the universe you stop loving to be filled. You love because you're overflowing.\n\nThat is the love she deserves. That is the man you're becoming.`,
+unpacking:`Before we talk about her, we have to talk about Him. The love you're trying to pour out has to come from somewhere. And right now, some of what you've been pouring has been coming from a place of <strong>need</strong> rather than <strong>fullness</strong>.\n\nWhen you love from emptiness, you love desperately. You hold too tight. You pour too fast. You read every silence as rejection and every warmth as a promise. That isn't a character flaw, it's what happens when a man is trying to love beyond his capacity. And your capacity only grows one way: by first letting God love you completely.\n\nJohn doesn't say "love God so he will love you back." He says we love <em>because</em> he first loved us. His love is the source. Not the reward. The moment you discover that you are already, completely, permanently loved by the God of the universe — you stop loving to be filled. You love because you're overflowing.\n\nThat is the love she deserves. That is the man you're becoming.`,
 quiz:[
 {q:"According to 1 John 4:19, what is the theological source and sequence of our capacity to love at all?",options:["Our emotional willpower and natural romantic instinct","God's love toward us which comes chronologically and causally first — we love as a response, never as an originator","Finding the right person who awakens love within us","Spiritual discipline and religious practice over time"],correct:1,fb:{c:"Exactly — love flows from God to us, and through us to others. It is always received before it is given. You are a channel, not the source.",w:"John is explicit — we love BECAUSE he first loved us. The causality matters. God initiates. We respond. The source is always God's prior love, not our emotional reserves."}},
 {q:"What is the practical difference between loving from 'fullness' versus loving from 'emptiness' and how does this show up in romantic pursuit?",options:["Fullness means feeling confident; emptiness means feeling insecure and it shows in how much you text","Loving from fullness means you give freely without needing a specific return to feel okay; loving from emptiness means you pursue to be completed, which creates pressure the other person can feel","Fullness describes a mature relationship; emptiness describes an immature one","Fullness is emotional health; emptiness is a mental health issue that needs therapy"],correct:1,fb:{c:"The source changes everything downstream. Fullness gives freely. Emptiness extracts, even when the extraction looks like passion and romance.",w:"The distinction is about the internal driver. When you love to fill a hole in yourself, the love has a hidden agenda — even when it feels completely genuine to you."}},
@@ -503,7 +786,7 @@ reflections:["When you love someone romantically, what are you specifically hopi
 
 {num:2, statement:"The Man She Needs Exists Before She Arrives",
 passage:{ref:"Ephesians 5:25–26", text:"Husbands, love your wives, as Christ loved the church and gave himself up for her, that he might sanctify her."},
-unpacking:`Here's something that will sound backwards at first: the woman God has for you is not the source of your growth, she is the <strong>companion of your growth</strong>. She is not your project, your therapist, or your salvation. She is your partner. And partners walk alongside each other as equals, not one dragging the other.\n\nYou've said you want a woman who is nurturing, who cooks, who supports, who is present. That's beautiful and biblical. A woman's nurturing heart is a gift. But here is the honest question I need you to sit with: <em>are you building what she deserves to come home to?</em>\n\nEphesians 5 doesn't say "find a Proverbs 31 woman." It says <strong>love her as Christ loved the church</strong>. Christ didn't wait for the church to be worthy before he led, provided, protected, and poured himself out. He went first. He was the man before the moment demanded it. That's what headship actually means, not control, but covenant-first love. Being the kind of man who makes it easy for a woman to flourish.\n\nYou are being built right now, in this season. The question is: are you participating in the building?`,
+unpacking:`Here's something that will sound backwards at first: the woman God has for you is not the source of your growth, she is the <strong>companion of your growth</strong>. She is not your project, your therapist, or your salvation. She is your partner. And partners walk alongside each other as equals, not one dragging the other.\n\nYou've said you want a woman who is nurturing, who cooks, who supports, who is present. That's beautiful and biblical. A woman's nurturing heart is a gift. But here is the honest question I need you to sit with: <em>are you building what she deserves to come home to?</em>\n\nEphesians 5 doesn't say "find a Proverbs 31 woman." It says <strong>love her as Christ loved the church</strong>. Christ didn't wait for the church to be worthy before he led, provided, protected, and poured himself out. He went first. He was the man before the moment demanded it. That's what headship actually means — not control, but covenant-first love. Being the kind of man who makes it easy for a woman to flourish.\n\nYou are being built right now, in this season. The question is: are you participating in the building?`,
 quiz:[
 {q:"Ephesians 5:25 says Christ loved the church and 'gave himself up for her.' What does this communicate about the direction and timing of sacrificial love in a marriage?",options:["Both partners sacrifice equally and simultaneously. It's always a mutual exchange","The husband initiates the direction of sacrifice. He gives before the return is guaranteed, modelling Christ who gave himself before the church was worthy","Sacrifice is only required during crisis moments in the relationship","Love flows naturally and therefore sacrifice doesn't need to be a deliberate posture"],correct:1,fb:{c:"Christ gave himself up FOR her, before she was worthy. That is the template — initiating sacrifice, not waiting for the return before giving. He went first always.",w:"The text is directional and sequential — Christ gave himself up FOR her. He went first, sacrificially, without waiting for the church to earn it or reciprocate. That's the blueprint."}},
 {q:"What does biblical headship actually mean in Ephesians 5:23?",options:["Authority to make all final decisions in the household without necessarily needing to consult the wife","A position of power that gives the husband overall control of the household direction","A servant-leader role modelled on Christ — going first in love, sacrifice, protection, and security, creating the conditions for the wife to flourish rather than asserting authority over her","An outdated cultural metaphor that was specific to first-century Roman household codes"],correct:2,fb:{c:"Headship in Ephesians is servant-leadership modelled entirely on Christ — and Christ expressed his headship by washing feet and giving his life. It is about who goes first in love, not who controls.",w:"The entire context of Ephesians 5 is self-giving love. Christ's headship was expressed through giving himself up — not through asserting authority. The model is always the cross."}},
@@ -591,7 +874,7 @@ unpacking:`The heart in Scripture is not primarily the seat of feeling — it is
 quiz:[
 {q:"Proverbs 4:23 says 'from the heart flow the springs of life.' What does the specific metaphor of springs tell us about why the heart requires active and ongoing vigilance?",options:["The heart is the most important organ and must be emotionally protected from negative experiences and people","Springs are the source — everything downstream in your life, your choices, your pursuits, and your loves flows from what you allow to occupy your heart. Contaminate the source and everything downstream is affected permanently.","The verse is fundamentally about emotional self-care and mental health management","Springs represent the flow of emotions which must be consistently monitored and carefully controlled"],correct:1,fb:{c:"A contaminated spring affects everything downstream without exception. What you allow to occupy your heart — what you dwell on, pursue, and grant access — shapes every relationship and every decision downstream.",w:"The springs metaphor is specifically about source and flow. The heart is not one part of life among many others — it is the origin point. Guarding it means tending the very source of who you are becoming."}},
 {q:"What does 'guarding your heart' look like specifically in the context of a developing romantic connection — understood as stewardship rather than emotional closure?",options:["Not allowing yourself to feel strongly about someone until they have explicitly declared mutual interest and commitment","Pacing how quickly you allow emotional investment to run ahead of the actual foundation of trust and mutual knowledge — giving your heart access to the person at the rate the relationship can genuinely and structurally support","Protecting yourself from the genuine possibility of pain at all costs before sufficient certainty is established","Waiting for the other person to emotionally invest first before you allow yourself to feel or express anything at all"],correct:1,fb:{c:"Stewardship of the heart is not emotional shutdown or strategic distance. It's pacing the depth of access in proportion to the actual foundation. Fast feeling with slow foundation is the spring flooding its banks.",w:"Guarding the heart is about structural integrity, not emotional distance. The depth of emotional investment should correspond to the strength of the actual relational foundation beneath it."}},
-{q:"What does it mean specifically to 'guard her heart' as a distinct and deliberate act of love?",options:["Guarding her heart means protecting her from information or truths that might cause her emotional pain","Guarding her heart means refusing to take from her — emotionally, physically, verbally, imaginatively — what only belongs within the covenant of commitment. It means pacing access to her inner world at the rate the commitment has actually earned.","Guarding her heart means ensuring she doesn't get hurt by other people or external circumstances","Guarding her heart and guarding your own are fundamentally the same act approached from different perspectives"],correct:1,fb:{c:"You guard her heart by refusing to take what isn't yours yet. Every layer of intimacy given before commitment creates a bond the relationship may not be structurally ready to honour. That's consuming rather than loving.",w:"Self-focused heart-guarding protects you. Other-focused heart-guarding protects her. Both are necessary — and the second one is what distinguishes a man who loves from a man who takes."}},
+{q:"What does it mean specifically to 'guard her heart' as a distinct and deliberate act of love?",options:["Guarding her heart means protecting her from information or truths that might cause her emotional pain","Guarding her heart means refusing to take from her — emotionally, physically, verbally, imaginatively — what only belongs within the covenant of commitment. It means pacing access to her inner world at the rate the commitment has actually earned.","Guarding her heart means ensuring she doesn't get hurt by other people or external circumstances","Guarding your own heart and guarding hers are fundamentally the same act approached from different perspectives"],correct:1,fb:{c:"You guard her heart by refusing to take what isn't yours yet. Every layer of intimacy given before commitment creates a bond the relationship may not be structurally ready to honour. That's consuming rather than loving.",w:"Self-focused heart-guarding protects you. Other-focused heart-guarding protects her. Both are necessary — and the second one is what distinguishes a man who loves from a man who takes."}},
 {q:"Song of Solomon 4:12 describes the beloved as 'a garden locked, a spring enclosed, a fountain sealed.' What does this image communicate about the nature of a woman's inner world?",options:["Women are naturally emotionally closed and must be persistently pursued until they open","A woman's inner world — her vulnerability, trust, and full emotional and physical self — is a sacred enclosed space intended to be accessed only by the one to whom she freely and willingly gives the key. Taking entry without that invitation violates something precious.","The image describes a woman who is strategically withholding herself to create attraction through scarcity","It describes an emotional unavailability that only resolves within the security of formal marriage commitment"],correct:1,fb:{c:"A sealed garden is not rejection — it is a sanctuary. Entry is a gift she gives freely, not a prize you claim or a barrier you overcome. The man who understands this guards the gate rather than trying to breach it.",w:"The locked garden metaphor communicates sacred enclosure — something precious that has its own key. The man who loves holy recognises that her trust is that key, and it belongs entirely to her to give."}},
 {q:"Philippians 4:7 says 'the peace of God which surpasses understanding will guard your hearts and minds.' What does it mean for God himself to be the ultimate guardian of the heart — and how does this change romantic pursuit?",options:["We should not actively pursue relationships because God will arrange the right ones without our participation or initiative","The deepest guarding of the heart is not self-protection or strategic distance — it is surrender to God's peace, which creates an internal security that does not depend on romantic outcomes. From that security, love can be given and received freely and rightly.","We don't need to actively guard our hearts because God will protect them from external harm without our participation","Peace is the reward God gives for successfully guarding your heart through discipline and vigilance"],correct:1,fb:{c:"God's peace guards the heart from the inside — not by preventing feeling but by grounding identity in something no romantic outcome can shake. That is what makes love that is truly free actually possible.",w:"The peace that guards is not indifference — it is settled trust. And settled trust is what allows you to love fully without needing the outcome to be certain before you give. That's the freedom this passage promises."}}
 ],
@@ -617,18 +900,21 @@ const calLayout = [
   {type:'day',num:9},{type:'day',num:10},{type:'heart',si:4},{type:'heart',si:0}
 ];
 
-const saveNote  = (d,t)   => localStorage.setItem('lhh_note_'+d, t);
-const loadNote  = d       => localStorage.getItem('lhh_note_'+d) || '';
-const saveQR    = (d,qi,t)=> localStorage.setItem(`lhh_qr_${d}_${qi}`, t);
-const loadQR    = (d,qi)  => localStorage.getItem(`lhh_qr_${d}_${qi}`) || '';
-const saveRefl  = (d,ri,t)=> localStorage.setItem(`lhh_ref_${d}_${ri}`, t);
-const loadRefl  = (d,ri)  => localStorage.getItem(`lhh_ref_${d}_${ri}`) || '';
-const markDone  = d => {
+/* ── STORAGE ── */
+const saveNote = (d,t) => localStorage.setItem('lhh_note_'+d, t);
+const loadNote = d => localStorage.getItem('lhh_note_'+d) || '';
+const saveQR   = (d,qi,t) => localStorage.setItem(`lhh_qr_${d}_${qi}`, t);
+const loadQR   = (d,qi) => localStorage.getItem(`lhh_qr_${d}_${qi}`) || '';
+const saveRefl = (d,ri,t) => localStorage.setItem(`lhh_ref_${d}_${ri}`, t);
+const loadRefl = (d,ri) => localStorage.getItem(`lhh_ref_${d}_${ri}`) || '';
+const markDone = d => {
   const a = JSON.parse(localStorage.getItem('lhh_done') || '[]');
   if(!a.includes(d)){ a.push(d); localStorage.setItem('lhh_done', JSON.stringify(a)); }
 };
 const isDone = d => JSON.parse(localStorage.getItem('lhh_done') || '[]').includes(d);
+const getDoneCount = () => JSON.parse(localStorage.getItem('lhh_done') || '[]').length;
 
+/* ── CALENDAR BUILD ── */
 function buildCalendar(){
   const g = document.getElementById('calGrid'); g.innerHTML = '';
   calLayout.forEach((c,i) => {
@@ -636,103 +922,196 @@ function buildCalendar(){
     if(c.type === 'day'){
       el.className += ` cal-day ${i%2===0?'pink-card':'white-card'}`;
       if(isDone(c.num)) el.classList.add('done');
-      el.innerHTML = `<div class="day-num">${c.num}</div><div class="day-label">Day</div>`;
+      el.innerHTML = `
+        <div class="day-num">${c.num}</div>
+        <div class="day-label">Day</div>
+        <div class="day-title-preview"><span>${dayTitles[c.num-1]}</span></div>`;
       el.onclick = () => openDay(c.num);
     } else {
-      el.className += ' cal-heart'; el.innerHTML = '♥'; el.onclick = () => openScripture(c.si);
+      el.className += ' cal-heart';
+      el.innerHTML = '♥';
+      el.style.animation += ',heartbeat 2.5s ease-in-out infinite';
+      el.onclick = () => openScripture(c.si);
     }
     g.appendChild(el);
   });
+  updateJourney();
 }
 
+function updateJourney(){
+  const done = getDoneCount();
+  const left = 10 - done;
+  const pct  = (done / 10) * 100;
+  document.getElementById('jDone').textContent = done;
+  document.getElementById('jLeft').textContent = left;
+  document.getElementById('jBar').style.width  = pct + '%';
+  document.getElementById('jMsg').textContent  = journeyMessages[done] || journeyMessages[9];
+}
+
+/* ── SHOW/HIDE PAGES ── */
 function showIntro(){
-  doUnmute();
   document.getElementById('page-intro').classList.add('active');
   document.getElementById('page-calendar').style.display = 'none';
   document.body.style.overflow = 'hidden';
 }
 
 function showCalendar(){
-  doUnmute();
   document.getElementById('page-intro').classList.remove('active');
   document.getElementById('page-calendar').style.display = 'block';
   document.body.style.overflow = 'auto';
   buildCalendar();
 }
 
+/* ── PRELOADER ── */
 function showPreloader(num, cb){
   const ph = preloaderPhrases[Math.floor(Math.random() * preloaderPhrases.length)];
   document.getElementById('preloaderPhrase').innerHTML = ph;
   const pre = document.getElementById('preloader'); pre.classList.add('show');
-  setTimeout(() => { pre.classList.remove('show'); cb(); }, 2200);
+  setTimeout(() => { pre.classList.remove('show'); cb(); }, 1800);
 }
 
+/* ── CONFETTI ── */
+function spawnConfetti(){
+  const colours = ['#e26b89','#f59dab','#a90a26','#ffd6df','#fff','#5c1d1e'];
+  for(let i=0;i<28;i++){
+    const p = document.createElement('div');
+    p.className = 'confetti-particle';
+    p.style.cssText = `
+      left:${20+Math.random()*60}vw;
+      top:${10+Math.random()*30}vh;
+      background:${colours[Math.floor(Math.random()*colours.length)]};
+      transform:rotate(${Math.random()*360}deg);
+      animation-delay:${Math.random()*0.6}s;
+      animation-duration:${1.4+Math.random()*0.8}s;
+    `;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(), 2500);
+  }
+}
+
+/* ── OPEN DAY ── */
 function openDay(num){
   showPreloader(num, () => {
     renderDevotional(num);
     const ov = document.getElementById('devotional-overlay');
     ov.classList.add('show'); ov.scrollTop = 0;
+    // Remove prayer mode when opening fresh
+    ov.classList.remove('prayer-mode');
+    document.getElementById('prayerModeBtn').classList.remove('active');
     markDone(num); buildCalendar();
   });
 }
 
+/* ── RENDER DEVOTIONAL ── */
+let quizScores = {};
+
 function renderDevotional(num){
   const d = days[num-1];
+  quizScores[num] = {correct:0, total:d.quiz.length, answered:0};
+
   const quizHTML = d.quiz.map((q,qi) => {
     const opts = q.options.map((o,oi) =>
       `<button class="quiz-option" onclick="answerQ(${num},${qi},${oi},${q.correct})">
         <span class="quiz-letter">${String.fromCharCode(65+oi)}.</span><span>${o}</span>
       </button>`).join('');
-    return `<div class="quiz-item">
+    return `<div class="quiz-item" id="qi_${num}_${qi}">
       <div class="quiz-num">Question ${qi+1} of ${d.quiz.length}</div>
       <div class="quiz-q">${q.q}</div>
       <div class="quiz-options" id="qo_${num}_${qi}">${opts}</div>
       <div class="quiz-feedback" id="qf_${num}_${qi}"></div>
-      <div class="quiz-response-label">Your response to this question</div>
-      <textarea class="quiz-response-area" id="qr_${num}_${qi}" placeholder="Write your thoughts on this question...">${loadQR(num,qi)}</textarea>
+      <div class="quiz-response-label">Your thoughts on this question</div>
+      <textarea class="quiz-response-area" id="qr_${num}_${qi}"
+        placeholder="Write your thoughts here..."
+        oninput="autoSaveField('qr',${num},${qi})">${loadQR(num,qi)}</textarea>
+      <div class="char-count" id="cc_qr_${num}_${qi}">${loadQR(num,qi).length} chars</div>
     </div>`;
   }).join('');
 
   const reflHTML = d.reflections.map((r,ri) =>
     `<div class="reflection-item">
       <div class="reflection-q">${ri+1}. ${r}</div>
-      <textarea class="reflection-area" id="rf_${num}_${ri}" placeholder="Write honestly here...">${loadRefl(num,ri)}</textarea>
+      <textarea class="reflection-area" id="rf_${num}_${ri}"
+        placeholder="Write honestly here..."
+        oninput="autoSaveField('rf',${num},${ri})">${loadRefl(num,ri)}</textarea>
+      <div class="char-count" id="cc_rf_${num}_${ri}">${loadRefl(num,ri).length} chars</div>
     </div>`).join('');
 
-  const prose = d.unpacking.split('\n\n').map(p => `<p style="margin-bottom:16px">${p}</p>`).join('');
+  const prose = d.unpacking.split('\n\n').map(p => `<p>${p}</p>`).join('');
+
+  // Day 10 celebration or regular complete banner
+  const completionHTML = num === 10
+    ? `<div class="day10-celebration" id="celebration_${num}">
+        <h3>♥ You Did It, Neil ♥</h3>
+        <p>Ten days of honest, courageous work. This is not the end of the journey — it is the beginning of the man who loves holy. Lulu Pops is so proud of you.</p>
+      </div>`
+    : `<div class="day-complete-banner" id="celebration_${num}">
+        <h3>Day ${num} Complete ✓</h3>
+        <p>Your responses have been saved. Come back for Day ${num+1} when you're ready.</p>
+      </div>`;
+
+  // Section nav
+  const navHTML = `<div class="section-nav">
+    <button class="section-nav-btn" onclick="scrollToId('sect_passage_${num}')">📖 Passage</button>
+    <button class="section-nav-btn" onclick="scrollToId('sect_unpack_${num}')">💡 Unpacking</button>
+    <button class="section-nav-btn" onclick="scrollToId('sect_quiz_${num}')">🎯 Quiz</button>
+    <button class="section-nav-btn" onclick="scrollToId('sect_reflect_${num}')">✏️ Reflect</button>
+    <button class="section-nav-btn" onclick="scrollToId('sect_notes_${num}')">📝 Notes</button>
+  </div>`;
 
   document.getElementById('devBody').innerHTML = `
-    <div class="dev-card">
+    ${navHTML}
+    <div class="dev-card prayer-card">
       <div class="dev-day-label">Day ${num} of 10</div>
       <h1 class="dev-statement">${d.statement}</h1>
       <div class="dev-rule"></div>
+
+      <div id="sect_passage_${num}"></div>
       <div class="section-label">Today's Passage</div>
       <div class="passage-block">
         <div class="passage-ref">${d.passage.ref}</div>
         <div class="passage-text">"${d.passage.text}"</div>
       </div>
+
+      <div id="sect_unpack_${num}"></div>
       <div class="section-label">Let's Unpack This Together</div>
       <div class="dev-prose">${prose}</div>
     </div>
-    <div class="dev-card">
+
+    <div class="dev-card" id="sect_quiz_${num}">
       <div class="section-label">Pop Quiz 🎯 — ${d.quiz.length} Questions · Allow ~30 Minutes</div>
+      <div id="quizScoreWrap_${num}"></div>
       ${quizHTML}
     </div>
-    <div class="dev-card">
+
+    <div class="dev-card" id="sect_reflect_${num}">
       <div class="section-label">Reflect on This</div>
       ${reflHTML}
     </div>
-    <div class="dev-card">
+
+    <div class="dev-card" id="sect_notes_${num}">
       <div class="section-label">Additional Notes</div>
-      <textarea class="notes-area" id="notes_${num}" placeholder="Any other thoughts, prayers, or things surfacing for you today...">${loadNote(num)}</textarea>
+      <textarea class="notes-area" id="notes_${num}"
+        placeholder="Any other thoughts, prayers, or things surfacing for you today..."
+        oninput="autoSaveField('notes',${num})">${loadNote(num)}</textarea>
+      <div class="char-count" id="cc_notes_${num}">${loadNote(num).length} chars</div>
       <div class="notes-actions">
         <button class="btn-complete" onclick="openSendModal(${num})">✓ Complete &amp; Send to Lulu Pops</button>
         <button class="btn-pdf" onclick="downloadPDF(${num})">⬇ Download PDF</button>
         <span class="save-confirm" id="sc_${num}"></span>
       </div>
-    </div>`;
+    </div>
+    ${completionHTML}`;
+
+  // Set day progress bar based on scroll
+  const ov = document.getElementById('devotional-overlay');
+  ov.onscroll = function(){
+    const total = ov.scrollHeight - ov.clientHeight;
+    const pct = total > 0 ? (ov.scrollTop / total) * 100 : 0;
+    document.getElementById('devProgressFill').style.width = pct + '%';
+  };
 }
 
+/* ── QUIZ ANSWER ── */
 function answerQ(dayNum, qi, chosen, correct){
   const opts = document.getElementById(`qo_${dayNum}_${qi}`);
   const fb   = document.getElementById(`qf_${dayNum}_${qi}`);
@@ -745,25 +1124,80 @@ function answerQ(dayNum, qi, chosen, correct){
   const ok = chosen === correct;
   fb.classList.add('show', ok ? 'correct-fb' : 'wrong-fb');
   fb.textContent = ok ? d.quiz[qi].fb.c : d.quiz[qi].fb.w;
+
+  // Track score
+  if(!quizScores[dayNum]) quizScores[dayNum] = {correct:0,total:d.quiz.length,answered:0};
+  quizScores[dayNum].answered++;
+  if(ok){ quizScores[dayNum].correct++; spawnConfetti(); }
+
+  // Show score chip when all answered
+  if(quizScores[dayNum].answered === quizScores[dayNum].total){
+    const s = quizScores[dayNum];
+    const isPerfect = s.correct === s.total;
+    const wrap = document.getElementById(`quizScoreWrap_${dayNum}`);
+    if(wrap){
+      wrap.innerHTML = `<div class="quiz-score-chip ${isPerfect?'perfect':'good'}">
+        ${isPerfect ? '🎉 Perfect score — ' : ''}${s.correct} / ${s.total} correct
+      </div>`;
+    }
+  }
+}
+
+/* ── AUTO SAVE ── */
+function autoSaveField(type, num, idx){
+  if(type === 'notes'){
+    const el = document.getElementById(`notes_${num}`);
+    if(el){ saveNote(num, el.value); updateCharCount(`cc_notes_${num}`, el.value.length); }
+  } else if(type === 'qr'){
+    const el = document.getElementById(`qr_${num}_${idx}`);
+    if(el){ saveQR(num, idx, el.value); updateCharCount(`cc_qr_${num}_${idx}`, el.value.length); }
+  } else if(type === 'rf'){
+    const el = document.getElementById(`rf_${num}_${idx}`);
+    if(el){ saveRefl(num, idx, el.value); updateCharCount(`cc_rf_${num}_${idx}`, el.value.length); }
+  }
+}
+
+function updateCharCount(id, count){
+  const el = document.getElementById(id);
+  if(el){ el.textContent = count + ' chars'; el.classList.toggle('active', count > 0); }
 }
 
 function autoSaveAll(num){
   const d = days[num-1];
   const n = document.getElementById('notes_'+num); if(n) saveNote(num, n.value);
-  d.quiz.forEach((_,qi) => { const e = document.getElementById(`qr_${num}_${qi}`); if(e) saveQR(num,qi,e.value); });
-  d.reflections.forEach((_,ri) => { const e = document.getElementById(`rf_${num}_${ri}`); if(e) saveRefl(num,ri,e.value); });
+  d.quiz.forEach((_,qi) => { const e=document.getElementById(`qr_${num}_${qi}`); if(e) saveQR(num,qi,e.value); });
+  d.reflections.forEach((_,ri) => { const e=document.getElementById(`rf_${num}_${ri}`); if(e) saveRefl(num,ri,e.value); });
 }
 
+/* ── PRAYER MODE ── */
+function togglePrayerMode(){
+  const ov  = document.getElementById('devotional-overlay');
+  const btn = document.getElementById('prayerModeBtn');
+  const on  = ov.classList.toggle('prayer-mode');
+  btn.classList.toggle('active', on);
+  btn.textContent = on ? '🕊 Exit Prayer Mode' : '🕊 Prayer Mode';
+}
+
+/* ── SCROLL ── */
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function scrollToTop(){
+  document.getElementById('devotional-overlay').scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── EMAIL BODY ── */
 function buildEmailBody(num){
   const d = days[num-1];
   let b = `LOVE HER HOLY — Neil's 10-Day Devotional Journal\nDay ${num}: ${d.statement}\n\nSCRIPTURE: ${d.passage.ref}\n"${d.passage.text}"\n\n`;
   b += `━━━ QUIZ RESPONSES ━━━\n\n`;
-  d.quiz.forEach((q,qi) => {
+  d.quiz.forEach((q,qi)=>{
     const r = document.getElementById(`qr_${num}_${qi}`)?.value || loadQR(num,qi);
     b += `Q${qi+1}: ${q.q}\nNeil's response: ${r||'(no response written)'}\n\n`;
   });
   b += `━━━ REFLECTION RESPONSES ━━━\n\n`;
-  d.reflections.forEach((r,ri) => {
+  d.reflections.forEach((r,ri)=>{
     const resp = document.getElementById(`rf_${num}_${ri}`)?.value || loadRefl(num,ri);
     b += `Reflection ${ri+1}: ${r}\nNeil's response: ${resp||'(no response written)'}\n\n`;
   });
@@ -772,6 +1206,7 @@ function buildEmailBody(num){
   return b;
 }
 
+/* ── SEND MODAL ── */
 let curDay = null;
 function openSendModal(num){
   autoSaveAll(num); curDay = num;
@@ -783,9 +1218,34 @@ function openSendModal(num){
     `Your Day ${num} responses will open in your email app, ready to send.<br><br>
      Sending to <strong style="color:var(--rose)">${RECIPIENT}</strong>`;
   document.getElementById('send-modal').classList.add('show');
+
+  // Celebrate completion (with confetti for day 10)
+  setTimeout(()=>{
+    const banner = document.getElementById(`celebration_${num}`);
+    if(banner) banner.classList.add('show');
+    if(num === 10){ spawnConfetti(); setTimeout(spawnConfetti, 500); setTimeout(spawnConfetti, 1000); }
+  }, 300);
 }
 function closeSendModal(){ document.getElementById('send-modal').classList.remove('show'); }
 
+/* ── SCRIPTURE ── */
+function openScripture(si){
+  const s = scriptures[si % scriptures.length];
+  document.getElementById('scriptureRef').textContent  = s.ref;
+  document.getElementById('scriptureText').textContent = `"${s.text}"`;
+  document.getElementById('scripture-overlay').classList.add('show');
+}
+function closeScripture(){ document.getElementById('scripture-overlay').classList.remove('show'); }
+
+/* ── CLOSE DEVOTIONAL ── */
+function closeDevotional(){
+  document.getElementById('devotional-overlay').classList.remove('show');
+  document.getElementById('devotional-overlay').classList.remove('prayer-mode');
+  document.getElementById('prayerModeBtn').classList.remove('active');
+  document.getElementById('prayerModeBtn').textContent = '🕊 Prayer Mode';
+}
+
+/* ── PDF ── */
 function downloadPDF(num){
   autoSaveAll(num);
   const d = days[num-1];
@@ -825,25 +1285,16 @@ function downloadPDF(num){
     doc.setPage(p);
     doc.setFontSize(8); doc.setFont('times','italic'); doc.setTextColor(169,10,38);
     doc.text("Love Her Holy: Neil's 10-Day Devotional Journal", M, 290);
-    doc.text(`Page ${p} of ${pc}`, W-M, 290, 'right');
+    doc.text(`Page ${p} of ${pc}`, W-M, 290, {align:'right'});
   }
   doc.save(`LoveHerHoly-Day${num}.pdf`);
 }
-
-function closeDevotional(){ document.getElementById('devotional-overlay').classList.remove('show'); }
-function openScripture(si){
-  const s = scriptures[si % scriptures.length];
-  document.getElementById('scriptureRef').textContent  = s.ref;
-  document.getElementById('scriptureText').textContent = `"${s.text}"`;
-  document.getElementById('scripture-overlay').classList.add('show');
-}
-function closeScripture(){ document.getElementById('scripture-overlay').classList.remove('show'); }
 
 /* ── INIT ── */
 document.getElementById('page-intro').classList.add('active');
 document.body.style.overflow = 'hidden';
 
-/* ── INTRO SLIDE: screen 1 → screen 2 after 5 seconds ── */
+/* ── INTRO AUTO-SLIDE after 5s ── */
 setTimeout(function(){
   const track = document.getElementById('introTrack');
   if(track){
@@ -854,111 +1305,6 @@ setTimeout(function(){
     document.getElementById('dot1b').classList.add('active');
   }
 }, 5000);
-
-/* ══ MUSIC PLAYER ══ */
-let ytPlayer  = null;
-let ytReady   = false;
-let mbVolume  = 22;
-let mbPlaying = false;
-let mbUnmuted = false;
-let noticeTimer = null;
-
-(function(){
-  const s = document.createElement('script');
-  s.src = 'https://www.youtube.com/iframe_api';
-  document.head.appendChild(s);
-})();
-
-function onYouTubeIframeAPIReady(){
-  ytPlayer = new YT.Player('yt-player', {
-    height:'1', width:'1',
-    videoId: 'R9LSain-Bk0',
-    playerVars:{
-      autoplay:1, loop:1, playlist:'R9LSain-Bk0',
-      controls:0, disablekb:1, fs:0,
-      modestbranding:1, rel:0, iv_load_policy:3, playsinline:1, mute:1
-    },
-    events:{
-      onReady: function(e){
-        ytReady   = true;
-        mbPlaying = true;
-        mbUpdateBtn();
-        e.target.playVideo();
-        doUnmute();
-        setTimeout(doUnmute, 300);
-        setTimeout(doUnmute, 800);
-        setTimeout(doUnmute, 2000);
-        noticeTimer = setTimeout(showNotice, 1500);
-      },
-      onStateChange: function(e){
-        const S = YT.PlayerState;
-        if(e.data === S.PLAYING){ mbPlaying=true;  mbUpdateBtn(); }
-        if(e.data === S.PAUSED)  { mbPlaying=false; mbUpdateBtn(); }
-        if(e.data === S.ENDED)   { e.target.playVideo(); }
-      }
-    }
-  });
-}
-
-function doUnmute(){
-  if(!ytPlayer || !ytReady) return;
-  try{
-    ytPlayer.unMute();
-    ytPlayer.setVolume(mbVolume);
-    mbUnmuted = true;
-    hideNotice();
-  } catch(err){}
-}
-
-function showNotice(){
-  if(mbUnmuted) return;
-  const n = document.getElementById('audio-notice');
-  if(n){ n.style.display='block'; setTimeout(hideNotice, 8000); }
-}
-function hideNotice(){
-  const n = document.getElementById('audio-notice');
-  if(n) n.style.display = 'none';
-  if(noticeTimer){ clearTimeout(noticeTimer); noticeTimer = null; }
-}
-
-function onFirstGesture(){
-  doUnmute();
-  if(ytPlayer && ytReady && !mbPlaying){ ytPlayer.playVideo(); }
-}
-document.addEventListener('click',    onFirstGesture, {once:true});
-document.addEventListener('touchend', onFirstGesture, {once:true});
-document.addEventListener('keydown',  onFirstGesture, {once:true});
-
-function mbUpdateBtn(){
-  const btn = document.getElementById('mb-play');
-  if(!btn) return;
-  btn.textContent = mbPlaying ? '❚❚' : '▶';
-  btn.classList.toggle('paused-state', !mbPlaying);
-}
-function mbUpdateVol(){
-  const lbl = document.getElementById('mb-vol-label');
-  if(lbl) lbl.textContent = mbVolume + '%';
-}
-
-function mbToggle(){
-  if(!ytPlayer || !ytReady) return;
-  doUnmute();
-  if(mbPlaying){ ytPlayer.pauseVideo(); }
-  else          { ytPlayer.playVideo(); }
-}
-function mbStop(){
-  if(!ytPlayer || !ytReady) return;
-  ytPlayer.pauseVideo();
-  ytPlayer.seekTo(0);
-  mbPlaying = false;
-  mbUpdateBtn();
-}
-function mbVol(delta){
-  doUnmute();
-  mbVolume = Math.max(0, Math.min(100, mbVolume + delta));
-  if(ytPlayer && ytReady) ytPlayer.setVolume(mbVolume);
-  mbUpdateVol();
-}
 </script>
 </body>
 </html>
