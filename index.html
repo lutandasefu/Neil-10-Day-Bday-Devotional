@@ -561,6 +561,9 @@ button:hover, .cal-cell:hover, .quiz-option:hover, .mood-btn:hover{
     <div id="streakBadge" class="streak-badge" style="display:none">
       <span class="fire">🔥</span><span id="streakText"></span>
     </div>
+    <div style="margin-top:10px;">
+      <button onclick="resetJournal()" style="background:none;border:1px solid rgba(226,107,137,.2);color:rgba(245,157,171,.4);font-family:var(--body-font);font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:none;padding:5px 14px;border-radius:2px;transition:all .3s;" onmouseover="this.style.color='var(--blush)';this.style.borderColor='rgba(226,107,137,.5)'" onmouseout="this.style.color='rgba(245,157,171,.4)';this.style.borderColor='rgba(226,107,137,.2)'">↺ Reset Journal</button>
+    </div>
   </div>
   <div class="journey-card" id="journeyCard">
     <div class="journey-stat">
@@ -1242,6 +1245,13 @@ function openScripture(si){
   document.getElementById('scripture-overlay').classList.add('show');
 }
 function closeScripture(){document.getElementById('scripture-overlay').classList.remove('show');}
+
+/* ══ RESET ══ */
+function resetJournal(){
+  if(!confirm('Reset your journal? All responses, quiz answers, and progress will be cleared.')) return;
+  Object.keys(localStorage).filter(k=>k.startsWith('lhh_')).forEach(k=>localStorage.removeItem(k));
+  buildCalendar();
+}
 
 /* ══ CLOSE DEVOTIONAL ══ */
 function closeDevotional(){document.getElementById('devotional-overlay').classList.remove('show');}
